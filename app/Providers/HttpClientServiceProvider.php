@@ -26,7 +26,7 @@ class HttpClientServiceProvider extends ServiceProvider
     {
       $this->app->bind('\GuzzleHttp\Client', function() {
         return new \GuzzleHttp\Client([
-          'base_uri' => 'https://www.twitter.com',
+          'base_uri' => 'https://api.twitter.com/1.1/',
           'timeout' => 2.0,
         ]);
       });
