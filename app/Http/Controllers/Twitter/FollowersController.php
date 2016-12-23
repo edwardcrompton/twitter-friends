@@ -11,12 +11,18 @@ use GuzzleHttp\Client;
 
 class FollowersController extends Controller {
 
+  private $client;
+
+  public function __construct(Client $client) {
+    $this->client = $client;
+  }
 
   /**
    * Show the followers of the handle.
    */
   public function showFollowers($handle) {
-    $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token, $access_token_secret);
-    return view('reports.followers', ['handle' => $handle]);
+    $this->client->request('GET', 'test');
+    print_r($this->client);
+    //return view('reports.followers', ['handle' => $handle]);
   }
 }

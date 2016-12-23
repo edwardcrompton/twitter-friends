@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'Twitter Analysis',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://twitter.app'),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,7 +166,6 @@ return [
         /*
          * Package Service Providers...
          */
-
         //
 
         /*
@@ -177,7 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\HttpClientServiceProvider::class,
     ],
 
     /*
