@@ -8,9 +8,14 @@ namespace App\Http\Controllers\Twitter;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Illuminate\Support\Facades\Cache;
 
 class FriendsController extends Controller {
+
+  const CACHE_EXPIRE = 360;
+  const FRIENDS_CACHE_KEY = 'friends';
 
   private $client;
 
@@ -53,7 +58,14 @@ class FriendsController extends Controller {
    */
   public function showFriendsByLastUpdate($handle, $order) {
     // See if we've cached the followers, if not, get them.
-    $friend_objects = $this->getFriends($handle);
+    $friend_objects = Cache::has('friend_objects');
+    if (!$friend_objects) {
+      $friend_objects = $this->getFriends($handle);
+      Cache::add('friend_objects', $friend_objects, self::CACHE_EXPIRE);
+    }
+    else {
+      $friend_objects = Cache::get('friend_objects');
+    }
 
     // Order the friends objects by the date of the last tweet.
     $updates = array();
@@ -71,8 +83,8 @@ class FriendsController extends Controller {
         break;
     }
 
-    $friends = Pagination::makeLengthAware($updates, count($updates), 50);
-    
+    $friends = new LengthAwarePaginator($updates, count($updates), 10);
+
     return view('reports.friends', ['handle' => $handle, 'friends' => $friends]);
   }
 

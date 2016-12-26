@@ -18,7 +18,7 @@
         @endforeach
     </div>
 
-    {{ $friendss->links() }}
+    {{ $friends->links() }}
 
 </div>
 
