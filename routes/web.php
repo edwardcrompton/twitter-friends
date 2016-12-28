@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 Route::get('/{handle}/stale', 'Twitter\FollowersController@showStale');
 
-Route::get('/{handle}/friends/{order}', 'Twitter\FriendsController@showFriendsByLastUpdate');
+Route::get('/{handle}/friends', 'Twitter\FriendsController@showFriendsByLastUpdate');

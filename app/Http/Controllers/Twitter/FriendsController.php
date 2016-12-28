@@ -11,6 +11,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Collection;
+use Illuminate\Http\Request;
 
 class FriendsController extends Controller {
 
@@ -57,7 +59,7 @@ class FriendsController extends Controller {
   /**
    * Display a list of friends ordered by the last time they were updated.
    */
-  public function showFriendsByLastUpdate($handle) {
+  public function showFriendsByLastUpdate($handle, Request $request) {
     $friends = $this->getFriends($handle);
 
     // Sort the friend objects by the date of the last post.
@@ -65,9 +67,21 @@ class FriendsController extends Controller {
       return strtotime($a->status->created_at) > strtotime($b->status->created_at) ? 1 : -1;
     });
 
-    $paginated_friends = new LengthAwarePaginator($friends, count($friends), 10);
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-    return view('reports.friends', ['handle' => $handle, 'friends' => $paginated_friends]);
+    $perPage = 10;
+
+    $collection = new Collection($friends);
+
+    //Slice the collection to get the items to display in current page
+    $currentPageFriends = $collection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+
+    //Create our paginator and pass it to the view
+    $paginatedFriends = new LengthAwarePaginator($currentPageFriends, count($collection), $perPage);
+    $paginatedFriends->setPath('/' . $request->path());
+
+
+    return view('reports.friends', ['handle' => $handle, 'friends' => $paginatedFriends]);
   }
 
   /**
