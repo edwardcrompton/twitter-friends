@@ -67,23 +67,11 @@ class FriendsController extends Controller {
       $friend_objects = Cache::get('friend_objects');
     }
 
-    // Order the friends objects by the date of the last tweet.
-    $updates = array();
-    foreach ($friend_objects as $index => $friend) {
-      $updates[$friend->screen_name] = strtotime($friend->status->created_at);
-    }
+    usort($friend_objects, function ($a, $b) {
+      return strtotime($a->status->created_at) > strtotime($b->status->created_at) ? 1 : -1;
+    });
 
-    // Sort by date.
-    switch ($order) {
-      case 'asc':
-        asort($updates);
-        break;
-      case 'desc':
-        arsort($updates);
-        break;
-    }
-
-    $friends = new LengthAwarePaginator($updates, count($updates), 10);
+    $friends = new LengthAwarePaginator($friend_objects, count($friend_objects), 10);
 
     return view('reports.friends', ['handle' => $handle, 'friends' => $friends]);
   }
