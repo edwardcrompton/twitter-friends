@@ -34,7 +34,7 @@ class FriendsController extends Controller {
   /**
    * Get the followers of the handle.
    */
-  public function getFriends($handle) {
+  private function loadFriends($handle) {
     // Make this a class constant.
     $page_max = 100;
 
@@ -46,6 +46,7 @@ class FriendsController extends Controller {
     // Fetch the friend objects in pages of 100, appending them to a single array.
     foreach ($paged_ids as $page) {
       $imploded_ids = implode(',', $page);
+      // It's recommended we post the user ids since there are a lot of them.
       $paged_friends = $this->client->get('users/lookup', ['user_id' => $imploded_ids]);
       $friend_objects = array_merge($friend_objects, $paged_friends);
     }
@@ -54,26 +55,39 @@ class FriendsController extends Controller {
   }
 
   /**
-   *
+   * Display a list of friends ordered by the last time they were updated.
    */
-  public function showFriendsByLastUpdate($handle, $order) {
-    // See if we've cached the followers, if not, get them.
-    $friend_objects = Cache::has('friend_objects');
-    if (!$friend_objects) {
-      $friend_objects = $this->getFriends($handle);
-      Cache::add('friend_objects', $friend_objects, self::CACHE_EXPIRE);
-    }
-    else {
-      $friend_objects = Cache::get('friend_objects');
-    }
+  public function showFriendsByLastUpdate($handle) {
+    $friends = $this->getFriends($handle);
 
-    usort($friend_objects, function ($a, $b) {
+    // Sort the friend objects by the date of the last post.
+    usort($friends, function ($a, $b) {
       return strtotime($a->status->created_at) > strtotime($b->status->created_at) ? 1 : -1;
     });
 
-    $friends = new LengthAwarePaginator($friend_objects, count($friend_objects), 10);
+    $paginated_friends = new LengthAwarePaginator($friends, count($friends), 10);
 
-    return view('reports.friends', ['handle' => $handle, 'friends' => $friends]);
+    return view('reports.friends', ['handle' => $handle, 'friends' => $paginated_friends]);
   }
 
+  /**
+   * Get the array of friends from a handle, either from the API or from cache.
+   *
+   * @param $handle
+   *  Twitter handle of the person who's friends we want.
+   *
+   * @return array
+   *  An array of friends objects.
+   */
+  public function getFriends($handle) {
+    // See if we've cached the friends, if not, load them from the API.
+    $friend_objects = Cache::has('friends_' . $handle);
+
+    if (!$friend_objects) {
+      $friend_objects = $this->loadFriends($handle);
+      Cache::add('friends_' . $handle, $friend_objects, self::CACHE_EXPIRE);
+      return $friend_objects;
+    }
+    return Cache::get('friends_' . $handle);
+  }
 }

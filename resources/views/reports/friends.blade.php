@@ -1,26 +1,24 @@
-<!-- resources/views/reports/followers.blade.php -->
+<!-- resources/views/reports/friends.blade.php -->
 
 @extends('layouts.app')
 
 @section('content')
 
-        <!-- Bootstrap Boilerplate... -->
+<!-- Bootstrap Boilerplate... -->
 
 <div class="panel-body">
     <!-- Display Validation Errors -->
     @include('common.errors')
 
-    Here are your friends, {{ $handle }}.
-
     <div class="container">
-        @foreach ($friends as $friend)
-            {{ $friend }}
-        @endforeach
+
+        <h3>Friends of {{ $handle }}</h3>
+
+        @each('reports.friend', $friends, 'friend')
     </div>
 
     {{ $friends->links() }}
 
 </div>
 
-<!-- TODO: Current Tasks -->
 @endsection
