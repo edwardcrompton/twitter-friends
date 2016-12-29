@@ -25,9 +25,6 @@ class FriendsController extends Controller {
    * FollowersController constructor.
    * @param TwitterOAuth $client
    *
-   * This doesn't feel 'decoupled' enough to me. Should we be having to use the
-   * TwitterOAuth client here and pass it directly to the constructor? It feels
-   * as though there should be another layer of abstraction.
    */
   public function __construct(TwitterOAuth $client) {
     $this->client = $client;
@@ -77,9 +74,8 @@ class FriendsController extends Controller {
     $currentPageFriends = $collection->slice(($currentPage - 1) * $perPage, $perPage)->all();
 
     //Create our paginator and pass it to the view
-    $paginatedFriends = new LengthAwarePaginator($currentPageFriends, count($collection), $perPage);
+    $paginatedFriends = app()->make('LengthAwarePaginator', [$currentPageFriends, count($collection), $perPage]);
     $paginatedFriends->setPath('/' . $request->path());
-
 
     return view('reports.friends', ['handle' => $handle, 'friends' => $paginatedFriends]);
   }
