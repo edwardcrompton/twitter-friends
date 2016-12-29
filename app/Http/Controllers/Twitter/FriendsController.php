@@ -7,7 +7,6 @@
 namespace App\Http\Controllers\Twitter;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Support\Facades\Cache;
@@ -18,6 +17,10 @@ class FriendsController extends Controller {
 
   const CACHE_EXPIRE = 360;
   const FRIENDS_CACHE_KEY = 'friends';
+
+  const ITEMS_PER_PAGE = 10;
+
+  const EXTERNAL_LINK_TO_TWITTER = 'https://www.twitter.com';
 
   private $client;
 
@@ -66,18 +69,16 @@ class FriendsController extends Controller {
 
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-    $perPage = 10;
-
     $collection = new Collection($friends);
 
-    //Slice the collection to get the items to display in current page
-    $currentPageFriends = $collection->slice(($currentPage - 1) * $perPage, $perPage)->all();
+    // Slice the collection to get the items to display in current page.
+    $currentPageFriends = $collection->slice(($currentPage - 1) * self::ITEMS_PER_PAGE, self::ITEMS_PER_PAGE)->all();
 
-    //Create our paginator and pass it to the view
-    $paginatedFriends = app()->make('LengthAwarePaginator', [$currentPageFriends, count($collection), $perPage]);
+    //Create our paginator and pass it to the view.
+    $paginatedFriends = app()->make('LengthAwarePaginator', [$currentPageFriends, count($collection), self::ITEMS_PER_PAGE]);
     $paginatedFriends->setPath('/' . $request->path());
 
-    return view('reports.friends', ['handle' => $handle, 'friends' => $paginatedFriends]);
+    return view('reports.friends', ['handle' => $handle, 'friends' => $paginatedFriends, 'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER]);
   }
 
   /**
