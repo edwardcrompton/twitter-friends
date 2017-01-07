@@ -19,6 +19,10 @@ Route::get('/', function () {
 
 Route::get('/{screenName}/friends', 'Twitter\FriendsController@showFriendsByLastUpdate');
 
+Route::get('/{screenName}/celebfriends', 'Twitter\FriendsController@showFriendsByCelebStatus');
+
+Route::get('/{screenName}/celebfollowers', 'Twitter\FriendsController@showFollowersByCelebStatus');
+
 App::bind('LengthAwarePaginator', function ($app, $params) {
   return new LengthAwarePaginator($params[0], $params[1], $params[2]);
 });

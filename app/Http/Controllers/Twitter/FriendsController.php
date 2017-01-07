@@ -45,6 +45,8 @@ class FriendsController extends Controller
      *
      * @param $screenName
      *  The screen name of the twitter account we're showing friends for.
+     * @param Request $request
+     *  The page request object.
      *
      * @return string
      *  A view to render.
@@ -66,20 +68,79 @@ class FriendsController extends Controller
             return strtotime($a->status->created_at) > strtotime($b->status->created_at) ? 1 : -1;
         });
 
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-        $collection = Collection::make($friends);
-
-        // Slice the collection to get the items to display in current page.
-        $currentPageFriends = $collection->slice(($currentPage - 1) * self::ITEMS_PER_PAGE, self::ITEMS_PER_PAGE)->all();
-
-        //Create our paginator and pass it to the view.
-        $paginatedFriends = app()->make('LengthAwarePaginator', [$currentPageFriends, count($collection), self::ITEMS_PER_PAGE]);
-        $paginatedFriends->setPath('/' . $request->path());
-
+        $paginatedFriends = $this->paginateProfiles($friends, $request);
+        
         return view('reports.friends', [
           'handle' => $screenName,
           'friends' => $paginatedFriends,
+          'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
+        ]);
+    }
+    
+    /**
+     * Display a list of friends ordered by their ratio of friends to followers.
+     *
+     * @param $screenName
+     *  The screen name of the twitter account we're showing friends for.
+     * @param Request $request
+     *  The page request object.
+     *
+     * @return string
+     *  A view to render.
+     */
+    public function showFriendsByCelebStatus($screenName, Request $request) {
+        $friends = $this->getFriends($screenName);
+        
+        // Sort the friends objects by the ratio of followers to followed.
+        usort($friends, function ($a, $b) {
+            if ($a->friends_count == 0) {
+                return -1;
+            }
+            if ($b->friends_count == 0) {
+                return 1;
+            }
+            return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
+        });
+        
+        $paginatedFriends = $this->paginateProfiles($friends, $request);
+           
+        return view('reports.celebs', [
+          'handle' => $screenName,
+          'friends' => $paginatedFriends,
+          'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
+        ]);
+    }
+    
+    /**
+     * Display a list of your followers by celeb status.
+     *
+     * @param $screenName
+     *  The screen name of the twitter account we're showing friends for.
+     * @param Request $request
+     *  The page request object.
+     *
+     * @return string
+     *  A view to render.
+     */
+    public function showFollowersByCelebStatus($screenName, Request $request) {
+        $followers = $this->getFriends($screenName);
+        
+        // Sort the friends objects by the ratio of followers to followed.
+        usort($followers, function ($a, $b) {
+            if ($a->friends_count == 0) {
+                return -1;
+            }
+            if ($b->friends_count == 0) {
+                return 1;
+            }
+            return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
+        });
+        
+        $paginatedFollowers = $this->paginateProfiles($followers, $request);
+           
+        return view('reports.celebs', [
+          'handle' => $screenName,
+          'friends' => $paginatedFollowers,
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
         ]);
     }
@@ -131,5 +192,53 @@ class FriendsController extends Controller
         }
 
         return $friend_objects;
+    }
+    
+    /**
+     * Get the array of followers from a handle, either from the API or from cache.
+     *
+     * @param $screenName
+     *  Twitter handle of the person who's followers we want.
+     *
+     * @return array
+     *  An array of follower objects.
+     */
+    public function getFollowers($screenName)
+    {
+        // See if we've cached the friends, if not, load them from the API.
+        $cacheKey = 'followers_' . $screenName;
+        if (!Cache::has($cacheKey)) {
+            $followerObjects = $this->loadFollowers($screenName);
+            Cache::add($cacheKey, $followerObjects, self::CACHE_EXPIRE);
+            return $followerObjects;
+        }
+
+        return Cache::get($cacheKey);
+    }
+    
+    /**
+     * Returns paginated profiles from an array of profiles.
+     * 
+     * @param array $friends
+     *  A list of friends.
+     * @param Request $request
+     *  The page request.
+     * 
+     * @return LengthAwarePaginator
+     */
+    private function paginateProfiles($friends, $request) 
+    {
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $collection = Collection::make($friends);
+
+        // Slice the collection to get the items to display in current page.
+        $currentPageFriends = $collection->slice(($currentPage - 1) * self::ITEMS_PER_PAGE, self::ITEMS_PER_PAGE)->all();
+
+        //Create our paginator and pass it to the view.
+        $paginatedFriends = app()->make('LengthAwarePaginator', [$currentPageFriends, count($collection), self::ITEMS_PER_PAGE]);
+        $paginatedFriends->setPath('/' . $request->path());
+        
+        return $paginatedFriends;
     }
 }
