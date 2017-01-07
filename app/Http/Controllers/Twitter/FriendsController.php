@@ -19,6 +19,8 @@ class FriendsController extends Controller
     const CACHE_EXPIRE = 360;
     // The prefix for the cache keys used to store friends.
     const FRIENDS_CACHE_KEY = 'friends';
+    // The prefix for the cache keys used to store followers.
+    const FOLLOWERS_CACHE_KEY = 'followers';
     // The maximum number of friend ids that can be used in a request for friends
     // from the API.
     const API_PAGE_MAXIMUM = 100;
@@ -157,7 +159,7 @@ class FriendsController extends Controller
     public function getFriends($screenName)
     {
         // See if we've cached the friends, if not, load them from the API.
-        $cacheKey = 'friends_' . $screenName;
+        $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $screenName;
         if (!Cache::has($cacheKey)) {
             $friendObjects = $this->loadFriends($screenName);
             Cache::add($cacheKey, $friendObjects, self::CACHE_EXPIRE);
@@ -206,7 +208,7 @@ class FriendsController extends Controller
     public function getFollowers($screenName)
     {
         // See if we've cached the friends, if not, load them from the API.
-        $cacheKey = 'followers_' . $screenName;
+        $cacheKey = FOLLOWERS_CACHE_KEY . '_' . $screenName;
         if (!Cache::has($cacheKey)) {
             $followerObjects = $this->loadFollowers($screenName);
             Cache::add($cacheKey, $followerObjects, self::CACHE_EXPIRE);
