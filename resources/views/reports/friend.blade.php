@@ -7,7 +7,7 @@
             <h4 class="media-heading">{{ $friend->name }}</h4>
         </a>
         <p>{{ '@'.$friend->screen_name }}</p>
-        <p>{{ $friend->status->created_at }}</p>
-        <p>{{ $friend->status->text }}</p>
+        <p>{{ $friend->status->created_at or "" }}</p>
+        <p>{{ $friend->status->text or "" }}</p>
     </div>
 </div>

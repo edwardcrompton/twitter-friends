@@ -110,7 +110,7 @@ class FriendsController extends Controller
      * Get the followers of a twitter account.
      *
      * @param $screenName string
-     *  The screen name of the user whos friends to fetch.
+     *  The screen name of the user whose friends to fetch.
      *
      * @return array
      *  An array of friend objects from the API.
