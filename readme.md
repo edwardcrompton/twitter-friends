@@ -1,6 +1,9 @@
 Twitter Friends
 ===============
 
+A Laravel based application to provide visibility on the people you follow on 
+Twitter and their recent activity.
+
 Installation
 ------------
 
