@@ -17,9 +17,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/{handle}/stale', 'Twitter\FollowersController@showStale');
-
-Route::get('/{handle}/friends', 'Twitter\FriendsController@showFriendsByLastUpdate');
+Route::get('/{screenName}/friends', 'Twitter\FriendsController@showFriendsByLastUpdate');
 
 App::bind('LengthAwarePaginator', function ($app, $params) {
   return new LengthAwarePaginator($params[0], $params[1], $params[2]);
