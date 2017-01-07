@@ -23,6 +23,9 @@ Route::get('/{screenName}/celebfriends', 'Twitter\FriendsController@showFriendsB
 
 Route::get('/{screenName}/celebfollowers', 'Twitter\FriendsController@showFollowersByCelebStatus');
 
+Route::get('/{screenName}/celebsuggestions', 'Twitter\FriendsController@showCelebsFollowingCelebs');
+
+// I think this should be moved somewhere special.        
 App::bind('LengthAwarePaginator', function ($app, $params) {
   return new LengthAwarePaginator($params[0], $params[1], $params[2]);
 });
