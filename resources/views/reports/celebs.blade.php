@@ -11,14 +11,7 @@
     @include('common.errors')
 
     <div class="container">
-        @if (count($friends))
-            <h3>Friends of {{ $handle }}</h3>
-            @foreach ($friends as $friend)
-                @include('reports.celeb', [$friend])
-            @endforeach
-        @else
-            <h4>We can't find any friends of {{ $handle }}</h4>
-        @endif
+        @each('reports.celeb', $friends, 'friend'); 
     </div>
 
     {{ $friends->links() }}
