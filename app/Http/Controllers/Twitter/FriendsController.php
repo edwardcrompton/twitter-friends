@@ -115,7 +115,7 @@ class FriendsController extends ProfileBaseController {
         return view('reports.celebs', [
           'handle' => $screenName,
           'friends' => $paginatedFollowers,
-          'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
+          'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,     
         ]);
     }
 }
