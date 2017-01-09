@@ -29,3 +29,11 @@ place of the xxx
 `TWITTER_ACCESS_TOKEN=xxx`
 
 `TWITTER_ACCESS_TOKEN_SECRET=xxx`
+
+To do next
+----------
+
+Using the api or local storage, add stats showing who you've followed vs who has
+has followed you back vs who is unlikely to ever follow you back.
+
+Improve efficiency of blade templating.
