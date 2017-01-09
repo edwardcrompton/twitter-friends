@@ -21,7 +21,7 @@ Route::get('/{screenName}/friends', 'Twitter\FriendsController@showFriendsByLast
 
 Route::get('/{screenName}/celebfriends', 'Twitter\FriendsController@showFriendsByCelebStatus');
 
-Route::get('/{screenName}/celebfollowers', 'Twitter\FriendsController@showFollowersByCelebStatus');
+Route::get('{screenName}/celebfollowers', 'Twitter\FriendsController@showFollowersByCelebStatus');
 
 Route::get('/{screenName}/celebsuggestions', 'Twitter\FriendsController@showCelebsFollowingCelebs');
 

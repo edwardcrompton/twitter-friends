@@ -8,6 +8,6 @@
         </a>
         <p>{{ '@'.$friend->screen_name }}</p>
         <p>{{ $friend->friends_count }} friends</p>
-        <p>{{ $friend->followers_count }} followers</p>
+        <p>{{HTML::linkAction('Twitter\FriendsController@showFollowersByCelebStatus', $friend->followers_count . ' followers', array($friend->screen_name))}}</p>
     </div>
 </div>

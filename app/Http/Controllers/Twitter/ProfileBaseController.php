@@ -79,7 +79,7 @@ abstract class ProfileBaseController extends Controller
     private function loadFriends($screenName)
     {
         $friends = $this->client->get('friends/ids', ['screen_name' => $screenName]);
-        return profileIdsToObjects($friends);
+        return $this->profileIdsToObjects($friends);
     }
     
     /**
