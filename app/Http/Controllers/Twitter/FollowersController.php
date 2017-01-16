@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 /**
  * FollowersController class for handling actions to do with followers.
  */
-class FollowersController {
+class FollowersController extends ProfileBaseController {
     
     const SORTING_CELEB_STATUS = 'celebs';
     
@@ -38,7 +38,8 @@ class FollowersController {
            
         return view('reports.celebs', [
           'handle' => $screenName,
-          'friends' => $paginatedFollowers,
+          'profiles' => $paginatedFollowers,
+          'profiletype' => 'celebs',  
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,     
         ]);
     }

@@ -45,6 +45,7 @@ class FriendsController extends ProfileBaseController {
         return view('reports.friends', [
           'handle' => $screenName,
           'friends' => $paginatedFriends,
+          'profiletype' => 'friend',  
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
         ]);
     }

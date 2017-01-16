@@ -1,4 +1,4 @@
-<!-- resources/views/reports/celebs.blade.php -->
+<!-- resources/views/reports/friends.blade.php -->
 
 @extends('layouts.app')
 
@@ -11,7 +11,11 @@
     @include('common.errors')
 
     <div class="container">
-        @each('reports.celeb', $friends, 'friend'); 
+        @if ($profiletype == 'friend')
+            @each('reports.friend', [$profile], 'friend')
+        @else if ($profiletype == 'celeb')
+            @each('reports.celeb', [$profile], 'celeb')
+        @endif
     </div>
 
     {{ $friends->links() }}

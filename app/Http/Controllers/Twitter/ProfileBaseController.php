@@ -115,8 +115,13 @@ abstract class ProfileBaseController extends Controller
      */
     private function loadFollowers($screenName)
     {
-        $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
-        return $this->profileIdsToObjects($followers);
+        try {
+            $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
+            return $this->profileIdsToObjects($followers);
+        } catch (Exception $ex) {
+            var_dump($ex)
+        }
+        
     }
     
     /**
