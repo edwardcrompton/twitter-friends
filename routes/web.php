@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/{screenName}/friends', 'Twitter\FriendsController@showFriendsByLastUpdate');
+Route::get('/{screenName}/{friends}', 'Twitter\FriendsController@showFriends');
 
-Route::get('/{screenName}/celebfriends', 'Twitter\FriendsController@showFriendsByCelebStatus');
+Route::get('/{screenName}/{celebfriends}', 'Twitter\FriendsController@showFriends');
 
 Route::get('{screenName}/celebfollowers', 'Twitter\FriendsController@showFollowersByCelebStatus');
 

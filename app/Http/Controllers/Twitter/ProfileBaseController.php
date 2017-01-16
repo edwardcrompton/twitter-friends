@@ -167,4 +167,48 @@ abstract class ProfileBaseController extends Controller
         
         return $paginatedFriends;
     }
+    
+    /**
+     * Sort an array of profiles by the last time they were updated.
+     * 
+     * @param array $profiles
+     * 
+     * @return array
+     *  The array of sorted profiles.
+     */
+    protected function sortByLastUpdate($profiles) {
+        // Sort the friend objects by the date of the last post.
+        usort($profiles, function ($a, $b) {
+            // If $a->status isn't set, assume $b->status is bigger.
+            if (!isset($a->status)) {
+                return -1;
+            }
+            // If $b->status isn't set, assume $a->status is bigger.
+            if (!isset($b->status)) {
+                return 1;
+            }
+            return strtotime($a->status->created_at) > strtotime($b->status->created_at) ? 1 : -1;
+        });
+    }
+    
+    /**
+     * Sort an array of profiles by the ratio of followers to friends.
+     * 
+     * @param array $profiles
+     * 
+     * @return array
+     *  The array of sorted profiles.
+     */
+    protected function sortByFollowersFriendsRatio($profiles) {
+        // Sort the friends objects by the ratio of followers to followed.
+        usort($profiles, function ($a, $b) {
+            if ($a->friends_count == 0) {
+                return -1;
+            }
+            if ($b->friends_count == 0) {
+                return 1;
+            }
+            return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
+        });
+    }
 }

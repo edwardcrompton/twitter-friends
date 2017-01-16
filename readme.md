@@ -37,3 +37,9 @@ Using the api or local storage, add stats showing who you've followed vs who has
 has followed you back vs who is unlikely to ever follow you back.
 
 Improve efficiency of blade templating.
+
+Add menu system and the ability to enter a twitter handle in a form
+
+OR
+
+Create a React based front end that integrates with this as an API.
