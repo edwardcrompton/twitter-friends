@@ -13,9 +13,8 @@ use Illuminate\Http\Request;
  */
 class FriendsController extends ProfileBaseController {
     
-    // These should perhaps be global so we can use them in the route too?
-    const SORTING_LAST_UPDATE = 'friends';
-    const SORTING_CELEB_STATUS = 'celebfriends';
+    const SORTING_LAST_UPDATE = 'lastupdated';
+    const SORTING_CELEB_STATUS = 'celebs';
     
     /**
      * Display a list of friends ordered by the last time they were updated.
@@ -30,14 +29,12 @@ class FriendsController extends ProfileBaseController {
      */
     public function showFriends($screenName, $sorting, Request $request)
     {
-        $friends = $this->getFriends($screenName);
-
         switch ($sorting) {
             case self::SORTING_LAST_UPDATE:
-                $friends = $this->sortByLastUpdate($friends);
+                $friends = $this->sortByLastUpdate($this->getFriends($screenName));
                 break;
             case self::SORTING_CELEB_STATUS:
-                $friends = $this->sortByFollowersFriendsRatio($friends);
+                $friends = $this->sortByFollowersFriendsRatio($this->getFriends($screenName));
                 break;
             default:
                 // No sorting.
@@ -49,40 +46,6 @@ class FriendsController extends ProfileBaseController {
           'handle' => $screenName,
           'friends' => $paginatedFriends,
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
-        ]);
-    }
-    
-    /**
-     * Display a list of your followers by celeb status.
-     *
-     * @param $screenName
-     *  The screen name of the twitter account we're showing friends for.
-     * @param Request $request
-     *  The page request object.
-     *
-     * @return string
-     *  A view to render.
-     */
-    public function showFollowersByCelebStatus($screenName, Request $request) {
-        $followers = $this->getFollowers($screenName);
-        
-        // Sort the friends objects by the ratio of followers to followed.
-        usort($followers, function ($a, $b) {
-            if ($a->friends_count == 0) {
-                return -1;
-            }
-            if ($b->friends_count == 0) {
-                return 1;
-            }
-            return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
-        });
-        
-        $paginatedFollowers = $this->paginateProfiles($followers, $request);
-           
-        return view('reports.celebs', [
-          'handle' => $screenName,
-          'friends' => $paginatedFollowers,
-          'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,     
         ]);
     }
 }
