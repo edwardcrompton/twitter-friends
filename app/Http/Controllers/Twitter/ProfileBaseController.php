@@ -119,7 +119,7 @@ abstract class ProfileBaseController extends Controller
             $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
             return $this->profileIdsToObjects($followers);
         } catch (Exception $ex) {
-            var_dump($ex)
+            var_dump($ex);
         }
         
     }
@@ -194,6 +194,7 @@ abstract class ProfileBaseController extends Controller
             }
             return strtotime($a->status->created_at) > strtotime($b->status->created_at) ? 1 : -1;
         });
+        return $profiles;
     }
     
     /**
@@ -215,5 +216,6 @@ abstract class ProfileBaseController extends Controller
             }
             return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
         });
+        return $profiles;
     }
 }

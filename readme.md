@@ -33,6 +33,8 @@ place of the xxx
 To do next
 ----------
 
+Rationalise the routing after template changes.
+
 Using the api or local storage, add stats showing who you've followed vs who has
 has followed you back vs who is unlikely to ever follow you back.
 

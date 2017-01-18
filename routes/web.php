@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,8 @@ Route::get('/', function () {
 
 Route::get('/{screenName}/friends/{sorting}', 'Twitter\FriendsController@showFriends');
 
-Route::get('/{screenName}/followers/{celebfollowers}', 'Twitter\FollowersController@showFollowers');
+// Does it matter what's inside the {} in the place holders?
+Route::get('/{screenName}/followers/{sorting}', 'Twitter\FollowersController@showFollowers');
 
 // I think this should be moved somewhere special.        
 App::bind('LengthAwarePaginator', function ($app, $params) {

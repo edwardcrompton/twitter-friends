@@ -36,7 +36,7 @@ class FollowersController extends ProfileBaseController {
         }        
         $paginatedFollowers = $this->paginateProfiles($followers, $request);
            
-        return view('reports.celebs', [
+        return view('reports.profiles', [
           'handle' => $screenName,
           'profiles' => $paginatedFollowers,
           'profiletype' => 'celebs',  

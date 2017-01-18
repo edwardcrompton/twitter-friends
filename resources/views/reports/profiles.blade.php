@@ -11,14 +11,20 @@
     @include('common.errors')
 
     <div class="container">
-        @if ($profiletype == 'friend')
-            @each('reports.friend', [$profile], 'friend')
-        @else if ($profiletype == 'celeb')
-            @each('reports.celeb', [$profile], 'celeb')
+        @if (count($profiles))
+            @if ($profiletype == 'friend')
+                @foreach ($profiles as $profile)
+                    @include ('reports.friend', [$profile])
+                @endforeach
+            @elseif ($profiletype == 'celeb')
+                @foreach ($profiles as $profile)
+                    @include ('reports.celeb', [$profile])
+                @endforeach
+            @endif
         @endif
     </div>
 
-    {{ $friends->links() }}
+    {{ $profiles->links() }}
 
 </div>
 
