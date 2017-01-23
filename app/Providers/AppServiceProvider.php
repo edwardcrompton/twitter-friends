@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('layouts.topmenu', function($view) 
+        {
+            $view->with('mainhandle', env('TWITTER_USER'));
+        });
     }
 
     /**
