@@ -1,4 +1,4 @@
-<!-- resources/views/reports/friends.blade.php -->
+<!-- resources/views/reports/profiles.blade.php -->
 
 @extends('layouts.app')
 
@@ -11,6 +11,8 @@
     @include('common.errors')
 
     <div class="container">
+        <h4>{{ $title }}</h4>
+        
         @if (count($profiles))
             @if ($profiletype == 'friend')
                 @foreach ($profiles as $profile)

@@ -1,3 +1,5 @@
+<!-- resources/views/reports/friend.blade.php -->
+
 <div class="media">
     <a class="media-left" href="{{ $linkToTwitter }}/{{ $profile->screen_name }}" target="_blank">
         <img class="media-object" src="{{ $profile->profile_image_url_https }}" alt="Profile image">

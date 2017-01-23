@@ -34,9 +34,13 @@ class FriendsController extends ProfileBaseController {
         switch ($sorting) {
             case self::SORTING_LAST_UPDATE:
                 $friends = $this->sortByLastUpdate($friends);
+                $profileType = 'friend';
+                $title = 'Friends of ' . $screenName . ': Low activity';
                 break;
             case self::SORTING_CELEB_STATUS:
                 $friends = $this->sortByFollowersFriendsRatio($friends);
+                $profileType = 'celeb';
+                $title = 'Friends of ' . $screenName . ': Celebrity status';
                 break;
             default:
                 // No sorting.
@@ -45,9 +49,9 @@ class FriendsController extends ProfileBaseController {
         $paginatedFriends = $this->paginateProfiles($friends, $request);
         
         return view('reports.profiles', [
-          'handle' => $screenName,
+          'title' => $title,
           'profiles' => $paginatedFriends,
-          'profiletype' => 'friend',  
+          'profiletype' => $profileType,  
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER
         ]);
     }

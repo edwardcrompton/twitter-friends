@@ -30,16 +30,19 @@ class FollowersController extends ProfileBaseController {
         switch ($sorting) {
             case self::SORTING_CELEB_STATUS:
                 $followers = $this->sortByFollowersFriendsRatio($this->getFollowers($screenName));
+                $profileType = 'celeb';
+                $title = 'Followers of ' . $screenName . ': Celebrity status';
                 break;
             default:
+                $profileType = 'friend';
                 // No sorting.
         }        
         $paginatedFollowers = $this->paginateProfiles($followers, $request);
            
         return view('reports.profiles', [
-          'handle' => $screenName,
+          'title' => $title,
           'profiles' => $paginatedFollowers,
-          'profiletype' => 'celebs',  
+          'profiletype' => $profileType,  
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,     
         ]);
     }
