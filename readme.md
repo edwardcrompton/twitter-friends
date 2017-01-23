@@ -33,8 +33,6 @@ place of the xxx
 To do next
 ----------
 
-Build a simple menu system for a single user.
-
 Concentrate on a self hosted system designed to gather information for a single
 user.
 
