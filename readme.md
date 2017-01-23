@@ -33,12 +33,15 @@ place of the xxx
 To do next
 ----------
 
-Rationalise the routing after template changes.
+Build a simple menu system for a single user.
+
+Concentrate on a self hosted system designed to gather information for a single
+user.
+
+Periodically check who is following you so we can tell who has unfollowed you.
 
 Using the api or local storage, add stats showing who you've followed vs who has
-has followed you back vs who is unlikely to ever follow you back.
-
-Improve efficiency of blade templating.
+followed you back vs who is unlikely to ever follow you back.
 
 Add menu system and the ability to enter a twitter handle in a form
 
