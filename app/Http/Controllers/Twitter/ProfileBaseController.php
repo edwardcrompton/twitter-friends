@@ -98,6 +98,7 @@ abstract class ProfileBaseController extends Controller
         if (!Cache::has($cacheKey)) {
             $followerObjects = $this->loadFollowers($screenName);
             Cache::add($cacheKey, $followerObjects, self::CACHE_EXPIRE);
+            // Rather than caching, we need to save to the database.
             return $followerObjects;
         }
 
@@ -105,7 +106,7 @@ abstract class ProfileBaseController extends Controller
     }
     
     /**
-     * Get the followers of a twitter account.
+     * Load the followers of a twitter account.
      *
      * @param $screenName string
      *  The screen name of the user whose followers to fetch.
