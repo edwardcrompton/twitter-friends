@@ -31,6 +31,11 @@ abstract class ProfileBaseController extends Controller
     const ITEMS_PER_PAGE = 10;
     // The base URL of the twitter site.
     const EXTERNAL_LINK_TO_TWITTER = 'https://www.twitter.com';
+    
+    // The follower profile type.
+    const PROFILE_TYPE_FOLLOWER = 1;
+    // The friend profile type.
+    const PROFILE_TYPE_FRIEND = 2;
 
     // The API client object.
     private $client;
@@ -93,16 +98,9 @@ abstract class ProfileBaseController extends Controller
      */
     public function getFollowers($screenName)
     {
-        // See if we've cached the friends, if not, load them from the API.
-        $cacheKey = self::FOLLOWERS_CACHE_KEY . '_' . $screenName;
-        if (!Cache::has($cacheKey)) {
-            $followerObjects = $this->loadFollowers($screenName);
-            Cache::add($cacheKey, $followerObjects, self::CACHE_EXPIRE);
-            // Rather than caching, we need to save to the database.
-            return $followerObjects;
-        }
-
-        return Cache::get($cacheKey);
+        $followerObjects = $this->loadFollowers($screenName);
+        $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
+        return $followerObjects;
     }
     
     /**
@@ -123,6 +121,24 @@ abstract class ProfileBaseController extends Controller
             var_dump($ex);
         }
         
+    }
+    
+    /**
+     * Save a set of profile objects to the database.
+     * 
+     * @param type $profileObjects
+     */
+    private function saveProfiles($profileObjects, $type) 
+    {
+        foreach ($profileObjects as $profileObject) {
+            $profile = new \App\Profile;
+            $profile->handle = $profileObject->screen_name;
+            $profile->id = $profileObject->id;
+            $profile->friend = $type == static::PROFILE_TYPE_FOLLOWER;
+            $profile->follower = $type == static::PROFILE_TYPE_FRIEND;
+            $profile->profile = serialize($profileObject);
+            $profile->save();
+        }
     }
     
     /**

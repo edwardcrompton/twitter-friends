@@ -19,6 +19,7 @@ class CreateProfilesTable extends Migration
             $table->text('profile');
             $table->boolean('friend');
             $table->boolean('follower');
+            $table->timestamps();
         });
     }
 
