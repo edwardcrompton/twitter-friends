@@ -99,6 +99,8 @@ abstract class ProfileBaseController extends Controller
     public function getFollowers($screenName)
     {
         $followerObjects = $this->loadFollowers($screenName);
+        // @todo: A condition to see if a certain amount of time has elapsed, in
+        // which case we'll update the profiles.
         $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
         return $followerObjects;
     }
@@ -131,7 +133,7 @@ abstract class ProfileBaseController extends Controller
     private function saveProfiles($profileObjects, $type) 
     {
         foreach ($profileObjects as $profileObject) {
-            $profile = new \App\Profile;
+            $profile = \App\Profile::firstOrNew(['id' => $profileObject->id]);
             $profile->handle = $profileObject->screen_name;
             $profile->id = $profileObject->id;
             $profile->friend = $type == static::PROFILE_TYPE_FOLLOWER;
