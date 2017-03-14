@@ -36,6 +36,9 @@ To do next
 Check again if it's necessary to store profiles in a formal table or whether 
 caching and expiry will do. Aim: See when people unfollow (i.e. diff).
 
+Database storage and variable storage is all file based a the moment. Making it 
+db based would be better.
+
 Concentrate on a self hosted system designed to gather information for a single
 user.
 

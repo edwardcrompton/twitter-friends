@@ -7,11 +7,13 @@
 namespace App\Http\Controllers\Twitter;
 
 use App\Http\Controllers\Controller;
+use App\Profile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Setting;
 
 /**
  * Base controller for Twitter user profiles.
@@ -22,8 +24,6 @@ abstract class ProfileBaseController extends Controller
     const CACHE_EXPIRE = 360;
     // The prefix for the cache keys used to store friends.
     const FRIENDS_CACHE_KEY = 'friends';
-    // The prefix for the cache keys used to store followers.
-    const FOLLOWERS_CACHE_KEY = 'followers';
     // The maximum number of friend ids that can be used in a request for friends
     // from the API.
     const API_PAGE_MAXIMUM = 100;
@@ -64,7 +64,7 @@ abstract class ProfileBaseController extends Controller
         // See if we've cached the friends, if not, load them from the API.
         $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $screenName;
         if (!Cache::has($cacheKey)) {
-            $friendObjects = $this->loadFriends($screenName);
+            $friendObjects = $this->loadFriendsFromRemote($screenName);
             Cache::add($cacheKey, $friendObjects, self::CACHE_EXPIRE);
             return $friendObjects;
         }
@@ -81,7 +81,7 @@ abstract class ProfileBaseController extends Controller
      * @return array
      *  An array of friend objects from the API.
      */
-    private function loadFriends($screenName)
+    private function loadFriendsFromRemote($screenName)
     {
         $friends = $this->client->get('friends/ids', ['screen_name' => $screenName]);
         return $this->profileIdsToObjects($friends);
@@ -98,10 +98,24 @@ abstract class ProfileBaseController extends Controller
      */
     public function getFollowers($screenName)
     {
-        $followerObjects = $this->loadFollowers($screenName);
-        // @todo: A condition to see if a certain amount of time has elapsed, in
-        // which case we'll update the profiles.
-        $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
+        $followersSavedTimestamp = Setting::get('followers_updated', 0);
+        
+        // If the maximum cache time has elapsed since followers were last saved
+        // to the database, load them again and save them to the database, 
+        // updating the timestamp as we do so.
+        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
+            $followerObjects = $this->loadFollowersFromRemote($screenName);
+            $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
+            Setting::set('followers_updated', time());
+            Setting::save();
+        }
+        else {
+            $followerObjects = \App\Profile::all();
+            // @todo Here we need to get the collection into an array of Profile
+            // objects so that they can be sorted with our existing functions
+            // correctly.
+            $test = $followerObjects->all();
+        }
         return $followerObjects;
     }
     
@@ -114,7 +128,7 @@ abstract class ProfileBaseController extends Controller
      * @return array
      *  An array of follower objects from the API.
      */
-    private function loadFollowers($screenName)
+    private function loadFollowersFromRemote($screenName)
     {
         try {
             $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
@@ -132,8 +146,11 @@ abstract class ProfileBaseController extends Controller
      */
     private function saveProfiles($profileObjects, $type) 
     {
+        // We have to allow all fields to be fillable whilst we're creating
+        // profiles en-masse.
+        Profile::unguard();
         foreach ($profileObjects as $profileObject) {
-            $profile = \App\Profile::firstOrNew(['id' => $profileObject->id]);
+            $profile = Profile::firstOrNew(['id' => $profileObject->id]);
             $profile->handle = $profileObject->screen_name;
             $profile->id = $profileObject->id;
             $profile->friend = $type == static::PROFILE_TYPE_FOLLOWER;
@@ -141,6 +158,7 @@ abstract class ProfileBaseController extends Controller
             $profile->profile = serialize($profileObject);
             $profile->save();
         }
+        Profile::reguard();
     }
     
     /**
