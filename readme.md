@@ -7,6 +7,18 @@ Twitter and their recent activity.
 Installation
 ------------
 
+### Database set up
+
+Install sqlite on the homestead machine:
+
+`sudo apt-get update`
+
+`sudo apt-get install sqlite`
+
+Create a database file for sqlite:
+
+`storage/databases/twitter.sqlite`
+
 From the project root:
 
 `composer install`
@@ -29,6 +41,12 @@ place of the xxx
 `TWITTER_ACCESS_TOKEN=xxx`
 
 `TWITTER_ACCESS_TOKEN_SECRET=xxx`
+
+Connect to the sqlite database with the following lines:
+
+`DB_CONNECTION=sqlite`
+
+`DB_DATABASE=/absolute/path/twitter-friends/database/twitter.sqlite`
 
 To do next
 ----------
