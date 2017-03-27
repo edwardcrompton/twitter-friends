@@ -35,6 +35,8 @@ abstract class ProfileBaseController extends Controller
     const PROFILE_TYPE_FOLLOWER = 1;
     // The friend profile type.
     const PROFILE_TYPE_FRIEND = 2;
+    // The unfollower profile type.
+    const PROFILE_TYPE_UNFOLLOWER = 0;
 
     // The API client object.
     private $client;
@@ -114,8 +116,8 @@ abstract class ProfileBaseController extends Controller
             $profile = Profile::firstOrNew(['id' => $profileObject->id]);
             $profile->handle = $profileObject->screen_name;
             $profile->id = $profileObject->id;
-            $profile->friend = $type == static::PROFILE_TYPE_FOLLOWER;
-            $profile->follower = $type == static::PROFILE_TYPE_FRIEND;
+            $profile->friend = $type == static::PROFILE_TYPE_FRIEND;
+            $profile->follower = $type == static::PROFILE_TYPE_FOLLOWER;
             $profile->profile = serialize($profileObject);
             $profile->save();
         }

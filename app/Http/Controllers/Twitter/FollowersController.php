@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Twitter;
 
 use Illuminate\Http\Request;
 use Setting;
+use App\Profile;
 
 /**
  * FollowersController class for handling actions to do with followers.
@@ -49,10 +50,20 @@ class FollowersController extends ProfileBaseController {
     }
     
     /**
-     * Get the difference between two arrays of profiles.
+     * Update the profiles in the database that have unfollowed.
+     * 
+     * @param array $previousFollowers
+     *  The array of previous followers.
+     * @param array $currentFollowers
+     *  The array of current followers.
+     * 
+     * @return array
+     *  The profiles that are no longer following.
      */
-    protected function getUnfollowers($previousFollowers, $currentFollowers) {
-        return array_diff_key($previousFollowers, $currentFollowers);
+    protected function saveUnfollowers($previousFollowers, $currentFollowers) {
+        $unfollowers = array_diff_key($previousFollowers, $currentFollowers);
+        
+        $this->saveProfiles($unfollowers, static::PROFILE_TYPE_UNFOLLOWER);
     }
     
     /**
@@ -66,7 +77,7 @@ class FollowersController extends ProfileBaseController {
         $savedFollowers = $this->getSavedFollowers();
         
         if ($latestFollowers = $this->getUpdatedFollowers()) {
-            $unfollowers = $this->getUnfollowers($savedFollowers, $latestFollowers);
+            $unfollowers = $this->saveUnfollowers($savedFollowers, $latestFollowers);
             return $latestFollowers;
         }
         
@@ -102,7 +113,8 @@ class FollowersController extends ProfileBaseController {
      * @return type
      */
     protected function getSavedFollowers() {
-        $savedFollowers = \App\Profile::all();
+        $savedFollowers = Profile::where('follower', 1)->get();
+        $followerObjects = array();
         foreach ($savedFollowers as $follower) {
             $profile = $follower->profile;
             // By unserializing the saved profile field we'll get the whole
