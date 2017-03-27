@@ -19,8 +19,6 @@ class FollowersController extends ProfileBaseController {
     /**
      * Display a list of your followers by celeb status.
      *
-     * @param $screenName
-     *  The screen name of the twitter account we're showing friends for.
      * @param Request $request
      *  The page request object.
      *
@@ -28,11 +26,13 @@ class FollowersController extends ProfileBaseController {
      *  A view to render.
      */
     public function showFollowers($screenName, $sorting, Request $request) {
+        $this->screenName = $screenName;
+        
         switch ($sorting) {
             case self::SORTING_CELEB_STATUS:
-                $followers = $this->sortByFollowersFriendsRatio($this->getFollowers($screenName));
+                $followers = $this->sortByFollowersFriendsRatio($this->getFollowers());
                 $profileType = 'celeb';
-                $title = 'Followers of ' . $screenName . ': Celebrity status';
+                $title = 'Followers of ' . $this->screenName . ': Celebrity status';
                 break;
             default:
                 $profileType = 'friend';
@@ -52,34 +52,40 @@ class FollowersController extends ProfileBaseController {
      * Get the difference between two arrays of profiles.
      */
     protected function getUnfollowers($previousFollowers, $currentFollowers) {
-        $unfollowers = array_diff_key($previousFollowers, $currentFollowers);
-        // @todo: Save the unfollowers to a separate database table or set a flag.
-        // May need to add a new db column.
+        return array_diff_key($previousFollowers, $currentFollowers);
     }
     
     /**
      * Get the array of followers of a handle, either from the API or from cache.
      *
-     * @param $screenName
-     *  Twitter handle of the person whose followers we want.
-     *
      * @return array
      *  An array of follower objects.
      */
-    public function getFollowers($screenName)
+    public function getFollowers()
     {
-        $followersSavedTimestamp = Setting::get('followers_updated', 0);
-        
         $savedFollowers = $this->getSavedFollowers();
         
-        // If the maximum cache time has elapsed since followers were last saved
-        // to the database, load them again and save them to the database, 
-        // updating the timestamp as we do so.
-        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
-            $latestFollowers = $this->loadFollowersFromRemote($screenName);
-            
+        if ($latestFollowers = $this->getUpdatedFollowers()) {
             $unfollowers = $this->getUnfollowers($savedFollowers, $latestFollowers);
-            
+            return $latestFollowers;
+        }
+        
+        return $savedFollowers;
+    }
+    
+    /**
+     * If the maximum cache time has elapsed since followers were last saved
+     * to the database, load them again and save them to the database, updating 
+     * the timestamp as we do so.
+     * 
+     * @return array
+     *  The latest followers, or an empty array if there is no update.
+     */
+    protected function getUpdatedFollowers() {
+        $followersSavedTimestamp = Setting::get('followers_updated', 0);
+        
+        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
+            $latestFollowers = $this->loadFollowersFromRemote();
             $this->saveProfiles($latestFollowers, static::PROFILE_TYPE_FOLLOWER);
             // Setting is a vendor package for storing variables.
             Setting::set('followers_updated', time());
@@ -87,7 +93,7 @@ class FollowersController extends ProfileBaseController {
             return $latestFollowers;
         }
         
-        return $savedFollowers;
+        return array();
     }
     
     /**

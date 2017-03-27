@@ -38,6 +38,9 @@ abstract class ProfileBaseController extends Controller
 
     // The API client object.
     private $client;
+            
+    // The screen name of the user we are getting associated profiles for.
+    public $screenName = '';        
 
     /**
      * FollowersController constructor.
@@ -48,22 +51,19 @@ abstract class ProfileBaseController extends Controller
     {
         $this->client = $client;
     }
-
+    
     /**
      * Get the array of friends from a handle, either from the API or from cache.
-     *
-     * @param $screenName
-     *  Twitter handle of the person who's friends we want.
      *
      * @return array
      *  An array of friends objects.
      */
-    public function getFriends($screenName)
+    public function getFriends()
     {
         // See if we've cached the friends, if not, load them from the API.
-        $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $screenName;
+        $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $this->screenName;
         if (!Cache::has($cacheKey)) {
-            $friendObjects = $this->loadFriendsFromRemote($screenName);
+            $friendObjects = $this->loadFriendsFromRemote();
             Cache::add($cacheKey, $friendObjects, self::CACHE_EXPIRE);
             return $friendObjects;
         }
@@ -74,31 +74,25 @@ abstract class ProfileBaseController extends Controller
     /**
      * Get the friends of a twitter account.
      *
-     * @param $screenName string
-     *  The screen name of the user whose friends to fetch.
-     *
      * @return array
      *  An array of friend objects from the API.
      */
-    protected function loadFriendsFromRemote($screenName)
+    protected function loadFriendsFromRemote()
     {
-        $friends = $this->client->get('friends/ids', ['screen_name' => $screenName]);
+        $friends = $this->client->get('friends/ids', ['screen_name' => $this->screenName]);
         return $this->profileIdsToObjects($friends);
     }
     
     /**
      * Load the followers of a twitter account.
      *
-     * @param $screenName string
-     *  The screen name of the user whose followers to fetch.
-     *
      * @return array
      *  An array of follower objects from the API.
      */
-    protected function loadFollowersFromRemote($screenName)
+    protected function loadFollowersFromRemote()
     {
         try {
-            $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
+            $followers = $this->client->get('followers/ids', ['screen_name' => $this->screenName]);
             return $this->profileIdsToObjects($followers);
         } catch (Exception $ex) {
             var_dump($ex);
@@ -111,7 +105,7 @@ abstract class ProfileBaseController extends Controller
      * 
      * @param type $profileObjects
      */
-    private function saveProfiles($profileObjects, $type) 
+    protected function saveProfiles($profileObjects, $type) 
     {
         // We have to allow all fields to be fillable whilst we're creating
         // profiles en-masse.
