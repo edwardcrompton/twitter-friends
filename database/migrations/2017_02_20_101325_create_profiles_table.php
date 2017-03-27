@@ -14,7 +14,7 @@ class CreateProfilesTable extends Migration
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
-            $table->text('handle')->unique();
+            $table->string('handle', 32)->unique();
             $table->text('id')->unique();
             $table->text('profile');
             $table->boolean('friend');
