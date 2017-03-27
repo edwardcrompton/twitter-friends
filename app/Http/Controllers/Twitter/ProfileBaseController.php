@@ -106,15 +106,20 @@ abstract class ProfileBaseController extends Controller
         if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
             $followerObjects = $this->loadFollowersFromRemote($screenName);
             $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
+            // Setting is a vendor package for storing variables.
             Setting::set('followers_updated', time());
             Setting::save();
         }
         else {
-            $followerObjects = \App\Profile::all();
-            // @todo Here we need to get the collection into an array of Profile
-            // objects so that they can be sorted with our existing functions
-            // correctly.
-            $test = $followerObjects->all();
+            $resultSet = \App\Profile::all();
+            
+            foreach ($resultSet as $follower) {
+                $profile = $follower->profile;
+                // By unserializing the saved profile field we'll get the whole
+                // profile with the same object structure as it was when returned
+                // by the API.
+                $followerObjects[] = unserialize($follower->profile);
+            }
         }
         return $followerObjects;
     }

@@ -2,6 +2,7 @@
 /public/storage
 /storage/*.key
 /storage/databases
+/strorage/settings.json
 /vendor
 Homestead.json
 Homestead.yaml
