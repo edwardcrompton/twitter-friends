@@ -13,7 +13,6 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
-use Setting;
 
 /**
  * Base controller for Twitter user profiles.
@@ -81,47 +80,10 @@ abstract class ProfileBaseController extends Controller
      * @return array
      *  An array of friend objects from the API.
      */
-    private function loadFriendsFromRemote($screenName)
+    protected function loadFriendsFromRemote($screenName)
     {
         $friends = $this->client->get('friends/ids', ['screen_name' => $screenName]);
         return $this->profileIdsToObjects($friends);
-    }
-    
-    /**
-     * Get the array of followers of a handle, either from the API or from cache.
-     *
-     * @param $screenName
-     *  Twitter handle of the person whose followers we want.
-     *
-     * @return array
-     *  An array of follower objects.
-     */
-    public function getFollowers($screenName)
-    {
-        $followersSavedTimestamp = Setting::get('followers_updated', 0);
-        
-        // If the maximum cache time has elapsed since followers were last saved
-        // to the database, load them again and save them to the database, 
-        // updating the timestamp as we do so.
-        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
-            $followerObjects = $this->loadFollowersFromRemote($screenName);
-            $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
-            // Setting is a vendor package for storing variables.
-            Setting::set('followers_updated', time());
-            Setting::save();
-        }
-        else {
-            $resultSet = \App\Profile::all();
-            
-            foreach ($resultSet as $follower) {
-                $profile = $follower->profile;
-                // By unserializing the saved profile field we'll get the whole
-                // profile with the same object structure as it was when returned
-                // by the API.
-                $followerObjects[] = unserialize($follower->profile);
-            }
-        }
-        return $followerObjects;
     }
     
     /**
@@ -133,7 +95,7 @@ abstract class ProfileBaseController extends Controller
      * @return array
      *  An array of follower objects from the API.
      */
-    private function loadFollowersFromRemote($screenName)
+    protected function loadFollowersFromRemote($screenName)
     {
         try {
             $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
@@ -186,7 +148,13 @@ abstract class ProfileBaseController extends Controller
             $profile_objects = array_merge($profile_objects, $paged_followers);
         }
 
-        return $profile_objects;
+        // Loop through the profile array and create a new array that is keyed
+        // by the profile ids.
+        foreach ($profile_objects as $profile_object) {
+            $keyedProfileObjects[$profile_object->id] = $profile_object;
+        }
+        
+        return $keyedProfileObjects;
     }
     
     /**
@@ -259,5 +227,16 @@ abstract class ProfileBaseController extends Controller
             return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
         });
         return $profiles;
+    }
+    
+    /**
+     * Fetches id properties from an array of profile objects.
+     */
+    private function getProfileIds($profiles) {
+        $ids = array();
+        foreach ($profiles as $profile) {
+            $ids[] = $profile->id;
+        }
+        return $ids;
     }
 }
