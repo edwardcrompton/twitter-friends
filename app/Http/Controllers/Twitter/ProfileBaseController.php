@@ -110,11 +110,8 @@ abstract class ProfileBaseController extends Controller
             Setting::save();
         }
         else {
-            $followerObjects = \App\Profile::all();
-            // @todo Here we need to get the collection into an array of Profile
-            // objects so that they can be sorted with our existing functions
-            // correctly.
-            $test = $followerObjects->all();
+            $followerObjects = Profile::all()->toArray();
+            //@todo: This creates an array of arrays. We want an array of objects (not recursive).
         }
         return $followerObjects;
     }
@@ -177,7 +174,11 @@ abstract class ProfileBaseController extends Controller
         foreach ($paged_ids as $page) {
             $imploded_ids = implode(',', $page);
             // It's recommended we post the user ids since there are a lot of them.
-            $paged_followers = $this->client->post('users/lookup', ['user_id' => $imploded_ids]);
+            try {
+                $paged_followers = $this->client->post('users/lookup', ['user_id' => $imploded_ids]);
+            } catch (Expection $exception) {
+                var_dump($exception);
+            }
             $profile_objects = array_merge($profile_objects, $paged_followers);
         }
 

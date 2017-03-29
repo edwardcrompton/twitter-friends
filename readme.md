@@ -17,9 +17,9 @@ Install sqlite on the homestead machine:
 
 Create a database file for sqlite:
 
-`storage/databases/twitter.sqlite`
+`touch storage/databases/twitterfriends.sqlite`
 
-From the project root:
+From the project root on the homestead machine:
 
 `composer install`
 
@@ -46,7 +46,11 @@ Connect to the sqlite database with the following lines:
 
 `DB_CONNECTION=sqlite`
 
-`DB_DATABASE=/absolute/path/twitter-friends/database/twitter.sqlite`
+`DB_FILE=twitterfriends.sqlite`
+
+Run the migration to create the database tables:
+
+`php artisan migrate`
 
 To do next
 ----------
