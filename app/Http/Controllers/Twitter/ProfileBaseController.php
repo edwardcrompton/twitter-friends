@@ -86,35 +86,6 @@ abstract class ProfileBaseController extends Controller
     }
     
     /**
-     * Get the array of followers of a handle, either from the API or from cache.
-     *
-     * @param $screenName
-     *  Twitter handle of the person whose followers we want.
-     *
-     * @return array
-     *  An array of follower objects.
-     */
-    public function getFollowers($screenName)
-    {
-        $followersSavedTimestamp = Setting::get('followers_updated', 0);
-        
-        // If the maximum cache time has elapsed since followers were last saved
-        // to the database, load them again and save them to the database, 
-        // updating the timestamp as we do so.
-        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
-            $followerObjects = $this->loadFollowersFromRemote($screenName);
-            $this->saveProfiles($followerObjects, static::PROFILE_TYPE_FOLLOWER);
-            Setting::set('followers_updated', time());
-            Setting::save();
-        }
-        else {
-            $followerObjects = Profile::all()->toArray();
-            //@todo: This creates an array of arrays. We want an array of objects (not recursive).
-        }
-        return $followerObjects;
-    }
-    
-    /**
      * Load the followers of a twitter account.
      *
      * @return array
@@ -169,11 +140,7 @@ abstract class ProfileBaseController extends Controller
         foreach ($paged_ids as $page) {
             $imploded_ids = implode(',', $page);
             // It's recommended we post the user ids since there are a lot of them.
-            try {
-                $paged_followers = $this->client->post('users/lookup', ['user_id' => $imploded_ids]);
-            } catch (Expection $exception) {
-                var_dump($exception);
-            }
+            $paged_followers = $this->client->post('users/lookup', ['user_id' => $imploded_ids]);
             $profile_objects = array_merge($profile_objects, $paged_followers);
         }
 
