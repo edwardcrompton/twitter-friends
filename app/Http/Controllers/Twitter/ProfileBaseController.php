@@ -13,7 +13,6 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
-use Setting;
 
 /**
  * Base controller for Twitter user profiles.
@@ -36,9 +35,14 @@ abstract class ProfileBaseController extends Controller
     const PROFILE_TYPE_FOLLOWER = 1;
     // The friend profile type.
     const PROFILE_TYPE_FRIEND = 2;
+    // The unfollower profile type.
+    const PROFILE_TYPE_UNFOLLOWER = 0;
 
     // The API client object.
     private $client;
+            
+    // The screen name of the user we are getting associated profiles for.
+    public $screenName = '';        
 
     /**
      * FollowersController constructor.
@@ -49,22 +53,19 @@ abstract class ProfileBaseController extends Controller
     {
         $this->client = $client;
     }
-
+    
     /**
      * Get the array of friends from a handle, either from the API or from cache.
-     *
-     * @param $screenName
-     *  Twitter handle of the person who's friends we want.
      *
      * @return array
      *  An array of friends objects.
      */
-    public function getFriends($screenName)
+    public function getFriends()
     {
         // See if we've cached the friends, if not, load them from the API.
-        $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $screenName;
+        $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $this->screenName;
         if (!Cache::has($cacheKey)) {
-            $friendObjects = $this->loadFriendsFromRemote($screenName);
+            $friendObjects = $this->loadFriendsFromRemote();
             Cache::add($cacheKey, $friendObjects, self::CACHE_EXPIRE);
             return $friendObjects;
         }
@@ -75,15 +76,12 @@ abstract class ProfileBaseController extends Controller
     /**
      * Get the friends of a twitter account.
      *
-     * @param $screenName string
-     *  The screen name of the user whose friends to fetch.
-     *
      * @return array
      *  An array of friend objects from the API.
      */
-    private function loadFriendsFromRemote($screenName)
+    protected function loadFriendsFromRemote()
     {
-        $friends = $this->client->get('friends/ids', ['screen_name' => $screenName]);
+        $friends = $this->client->get('friends/ids', ['screen_name' => $this->screenName]);
         return $this->profileIdsToObjects($friends);
     }
     
@@ -119,16 +117,13 @@ abstract class ProfileBaseController extends Controller
     /**
      * Load the followers of a twitter account.
      *
-     * @param $screenName string
-     *  The screen name of the user whose followers to fetch.
-     *
      * @return array
      *  An array of follower objects from the API.
      */
-    private function loadFollowersFromRemote($screenName)
+    protected function loadFollowersFromRemote()
     {
         try {
-            $followers = $this->client->get('followers/ids', ['screen_name' => $screenName]);
+            $followers = $this->client->get('followers/ids', ['screen_name' => $this->screenName]);
             return $this->profileIdsToObjects($followers);
         } catch (Exception $ex) {
             var_dump($ex);
@@ -141,7 +136,7 @@ abstract class ProfileBaseController extends Controller
      * 
      * @param type $profileObjects
      */
-    private function saveProfiles($profileObjects, $type) 
+    protected function saveProfiles($profileObjects, $type) 
     {
         // We have to allow all fields to be fillable whilst we're creating
         // profiles en-masse.
@@ -150,8 +145,8 @@ abstract class ProfileBaseController extends Controller
             $profile = Profile::firstOrNew(['id' => $profileObject->id]);
             $profile->handle = $profileObject->screen_name;
             $profile->id = $profileObject->id;
-            $profile->friend = $type == static::PROFILE_TYPE_FOLLOWER;
-            $profile->follower = $type == static::PROFILE_TYPE_FRIEND;
+            $profile->friend = $type == static::PROFILE_TYPE_FRIEND;
+            $profile->follower = $type == static::PROFILE_TYPE_FOLLOWER;
             $profile->profile = serialize($profileObject);
             $profile->save();
         }
@@ -182,7 +177,13 @@ abstract class ProfileBaseController extends Controller
             $profile_objects = array_merge($profile_objects, $paged_followers);
         }
 
-        return $profile_objects;
+        // Loop through the profile array and create a new array that is keyed
+        // by the profile ids.
+        foreach ($profile_objects as $profile_object) {
+            $keyedProfileObjects[$profile_object->id] = $profile_object;
+        }
+        
+        return $keyedProfileObjects;
     }
     
     /**
@@ -255,5 +256,16 @@ abstract class ProfileBaseController extends Controller
             return ($a->followers_count / $a->friends_count > $b->followers_count / $b->friends_count) ? -1 : 1;
         });
         return $profiles;
+    }
+    
+    /**
+     * Fetches id properties from an array of profile objects.
+     */
+    private function getProfileIds($profiles) {
+        $ids = array();
+        foreach ($profiles as $profile) {
+            $ids[] = $profile->id;
+        }
+        return $ids;
     }
 }
