@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
  */
 abstract class ProfileBaseController extends Controller
 {
-    // The number of minutes to cache profiles fetched from the API.
+    // The default number of minutes to cache profiles fetched from the API.
     const CACHE_EXPIRE = 360;
     // The prefix for the cache keys used to store friends.
     const FRIENDS_CACHE_KEY = 'friends';
@@ -42,7 +42,10 @@ abstract class ProfileBaseController extends Controller
     private $client;
             
     // The screen name of the user we are getting associated profiles for.
-    public $screenName = '';        
+    public $screenName = '';
+
+    // The number of minutes to cache profiles fetched from the API.
+    protected $cacheExpire = 0;
 
     /**
      * FollowersController constructor.
@@ -52,6 +55,7 @@ abstract class ProfileBaseController extends Controller
     public function __construct(TwitterOAuth $client)
     {
         $this->client = $client;
+        $this->cacheExpire = env('TWITTER_FRIENDS_CACHE_EXPIRE', static::CACHE_EXPIRE);
     }
     
     /**

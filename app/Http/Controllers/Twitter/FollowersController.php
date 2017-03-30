@@ -77,7 +77,7 @@ class FollowersController extends ProfileBaseController {
         $savedFollowers = $this->getSavedFollowers();
         
         if ($latestFollowers = $this->getUpdatedFollowers()) {
-            $unfollowers = $this->saveUnfollowers($savedFollowers, $latestFollowers);
+            $this->saveUnfollowers($savedFollowers, $latestFollowers);
             return $latestFollowers;
         }
         
@@ -95,7 +95,7 @@ class FollowersController extends ProfileBaseController {
     protected function getUpdatedFollowers() {
         $followersSavedTimestamp = Setting::get('followers_updated', 0);
         
-        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > self::CACHE_EXPIRE * 60) {
+        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > $this->cacheExpire * 60) {
             $latestFollowers = $this->loadFollowersFromRemote();
             $this->saveProfiles($latestFollowers, static::PROFILE_TYPE_FOLLOWER);
             // Setting is a vendor package for storing variables.
