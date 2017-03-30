@@ -21,6 +21,12 @@
                             Followers: Celebs
                         </a>
                     </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="{{ action('Twitter\FollowersController@showUnfollowers', [$mainhandle]) }}">
+                            Followers: Unfollowed
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

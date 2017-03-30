@@ -48,6 +48,21 @@ class FollowersController extends ProfileBaseController {
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,     
         ]);
     }
+
+    /**
+     * Display a list of people who've unfollowed you.
+     *
+     * @param $screenName
+     *  The twitter handle of the main user.
+     * @param Request $request
+     *  The page request object.
+     *
+     * @return string
+     *  A view to render.
+     */
+    public function showUnfollowers($screenName, Request $request) {
+        return '';
+    }
     
     /**
      * Update the profiles in the database that have unfollowed.
