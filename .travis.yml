@@ -1,0 +1,26 @@
+language: php
+php:
+  - '5.6'
+  - '7.0'
+  - '7.1'
+
+env:
+  global:
+    - APP_ENV=staging
+    - APP_KEY=base64:IogPPlUJX4x/eEXC44rcLOXTZa9WO/75dvbmONVe/9k=
+    - APP_DEBUG=true
+    - APP_LOG_LEVEL=debug
+
+    - DB_CONNECTION=sqlite
+    - DB_CONNECTION=sqlite
+    - CACHE_DRIVER=file
+    - SESSION_DRIVER=file
+    - QUEUE_DRIVER=sync
+
+    - TWITTER_CONSUMER_KEY=9POH0moFpD1Ko2S5i12Rqwbps
+    - TWITTER_CONSUMER_KEY_SECRET=gIom03ilPuRmneqF4GHvv3MUFfuQlTGPjjFEzoQPcpn90Hfb7I
+    - TWITTER_ACCESS_TOKEN=6515352-Ci9VVdJFgwjhzi3VoBsWNpQgWpl5YQEehrAocSi9Gj
+    - TWITTER_ACCESS_TOKEN_SECRET=mmnaQMRK3LBvwkaCXq4LDe9VM3W4fk7J97euYsc3DeZaI
+
+    - TWITTER_FRIENDS_CACHE_EXPIRE=360
+    - TWITTER_USER=ed_crompton
