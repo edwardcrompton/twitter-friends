@@ -55,8 +55,12 @@ Run the migration to create the database tables:
 To do next
 ----------
 
-Check again if it's necessary to store profiles in a formal table or whether 
-caching and expiry will do. Aim: See when people unfollow (i.e. diff).
+It's useful to store follower profiles in the db for the 'master user' but when 
+drilling down to followers, of followers we can cache these more simply.
+
+Build a screen to show followers.
+
+Allow drill down by reinstating caching for followers of followers.
 
 Database storage and variable storage is all file based a the moment. Making it 
 db based would be better.
