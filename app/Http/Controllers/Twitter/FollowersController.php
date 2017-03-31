@@ -129,11 +129,12 @@ class FollowersController extends ProfileBaseController {
           ->get();
 
         $unFollowerObjects = array();
-        foreach ($unFollowers as $follower) {
+        foreach ($unFollowers as $unFollower) {
             // By unserializing the saved profile field we'll get the whole
             // profile with the same object structure as it was when returned
             // by the API.
-            $unFollowerObjects[$follower->id] = unserialize($follower->profile);
+            $unFollowerObjects[$unFollower->id] = unserialize($unFollower->profile);
+            $unFollowerObjects[$unFollower->id]->unfollowed_date = $unFollower->updated_at;
         }
         return $unFollowerObjects;
     }
