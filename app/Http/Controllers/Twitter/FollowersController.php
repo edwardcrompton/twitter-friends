@@ -66,7 +66,19 @@ class FollowersController extends ProfileBaseController {
      *  A view to render.
      */
     public function showUnfollowers($screenName, Request $request) {
-        return '';
+        $this->screenName = $screenName;
+
+        $title = 'People who have unfollowed ' . $this->screenName;
+
+        $profileType = 'celeb';
+
+        $paginatedUnfollowers = $this->paginateProfiles($this->getUnfollowers(), $request);
+        return view('reports.profiles', [
+          'title' => $title,
+          'profiles' => $paginatedUnfollowers,
+          'profiletype' => $profileType,
+          'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,
+        ]);
     }
     
     /**
@@ -103,6 +115,28 @@ class FollowersController extends ProfileBaseController {
         
         return $savedFollowers;
     }
+
+    /**
+     * Fetches the saved unfollower profiles from the database.
+     *
+     * @return array
+     *  An array of profile objects of unfollowers.
+     */
+    public function getUnfollowers() {
+        $unFollowers = Profile::where('follower', 0)
+          ->where('friend', 0)
+          ->orderBy('updated_at', 'desc')
+          ->get();
+
+        $unFollowerObjects = array();
+        foreach ($unFollowers as $follower) {
+            // By unserializing the saved profile field we'll get the whole
+            // profile with the same object structure as it was when returned
+            // by the API.
+            $unFollowerObjects[$follower->id] = unserialize($follower->profile);
+        }
+        return $unFollowerObjects;
+    }
     
     /**
      * If the maximum cache time has elapsed since followers were last saved
@@ -137,6 +171,7 @@ class FollowersController extends ProfileBaseController {
         $savedFollowers = Profile::where('follower', 1)->get();
         $followerObjects = array();
         foreach ($savedFollowers as $follower) {
+            // @todo: Seems redundant.
             $profile = $follower->profile;
             // By unserializing the saved profile field we'll get the whole
             // profile with the same object structure as it was when returned
