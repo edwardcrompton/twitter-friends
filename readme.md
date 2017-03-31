@@ -1,7 +1,7 @@
 Twitter Friends
 ===============
 
-[![Build Status](https://travis-ci.org/edwardcrompton/twitter-friends.svg?branch=master)](https://travis-ci.org/edwardcrompton/twitter-friends)
+[![Build Status](https://travis-ci.org/edwardcrompton/twitter-friends.svg?branch=develop)](https://travis-ci.org/edwardcrompton/twitter-friends)
 
 A Laravel based application to provide visibility on the people you follow on 
 Twitter and their recent activity.
