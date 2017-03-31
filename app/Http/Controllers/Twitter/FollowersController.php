@@ -14,12 +14,17 @@ use App\Profile;
  * FollowersController class for handling actions to do with followers.
  */
 class FollowersController extends ProfileBaseController {
-    
+
+    // A string to denote sorting by 'celebrity status'.
     const SORTING_CELEB_STATUS = 'celebs';
     
     /**
      * Display a list of your followers by celeb status.
      *
+     * @param string $screenName
+     *  The twitter handle of the user whos followers we want to show.
+     * @param string $sorting
+     *  A string to denote the type of sorting used.
      * @param Request $request
      *  The page request object.
      *
@@ -125,7 +130,8 @@ class FollowersController extends ProfileBaseController {
     /**
      * Fetch the saved followers from the database.
      * 
-     * @return type
+     * @return array
+     *  Profile objects of followers from the database.
      */
     protected function getSavedFollowers() {
         $savedFollowers = Profile::where('follower', 1)->get();
