@@ -27,5 +27,3 @@ env:
 
 before_install:
     - composer install
-    
-script: phpunit
