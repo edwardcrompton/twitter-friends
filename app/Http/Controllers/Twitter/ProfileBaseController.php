@@ -191,7 +191,7 @@ abstract class ProfileBaseController extends Controller
      * @return array
      *  The array of sorted profiles.
      */
-    protected function sortByLastUpdate($profiles) {
+    public function sortByLastUpdate($profiles) {
         // Sort the friend objects by the date of the last post.
         usort($profiles, function ($a, $b) {
             // If $a->status isn't set, assume $b->status is bigger.
