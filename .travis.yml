@@ -29,3 +29,4 @@ env:
 
 before_install:
     - composer install
+    - touch storage/databases/twitterfriends.sqlite
