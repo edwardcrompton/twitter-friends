@@ -4,6 +4,8 @@ php:
   - '7.0'
   - '7.1'
 
+services: sqlite
+
 env:
   global:
     - APP_ENV=staging
@@ -12,6 +14,7 @@ env:
     - APP_LOG_LEVEL=debug
 
     - DB_CONNECTION=sqlite
+    - DB_FILE=twitterfriends.sqlite
     - CACHE_DRIVER=file
     - SESSION_DRIVER=file
     - QUEUE_DRIVER=sync
