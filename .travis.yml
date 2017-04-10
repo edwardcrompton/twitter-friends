@@ -14,7 +14,7 @@ env:
     - APP_LOG_LEVEL=debug
 
     - DB_CONNECTION=sqlite
-    - DB_FILE=twitterfriends.sqlite
+    - DB_DATABASE=memory
     - CACHE_DRIVER=file
     - SESSION_DRIVER=file
     - QUEUE_DRIVER=sync
@@ -29,4 +29,3 @@ env:
 
 before_install:
     - composer install
-    - touch storage/databases/twitterfriends.sqlite
