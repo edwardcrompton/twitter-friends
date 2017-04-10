@@ -28,4 +28,6 @@ env:
     - TWITTER_USER=ed_crompton
 
 before_install:
-    - composer install
+    - composer install --no-interaction
+    - php artisan key:generate
+    - php artisan migrate:install
