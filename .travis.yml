@@ -27,5 +27,4 @@ env:
 
 before_install:
     - composer install --no-interaction
-    - php artisan key:generate
     - php artisan migrate:install
