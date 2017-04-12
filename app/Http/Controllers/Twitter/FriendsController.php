@@ -29,18 +29,20 @@ class FriendsController extends ProfileBaseController {
      */
     public function showFriends($screenName, $sorting, Request $request)
     {
-        $friends = $this->getFriends($screenName);
+        $this->screenName = $screenName;
+
+        $friends = $this->getFriends();
         
         switch ($sorting) {
             case self::SORTING_LAST_UPDATE:
                 $friends = $this->sortByLastUpdate($friends);
                 $profileType = 'friend';
-                $title = 'Friends of ' . $screenName . ': Low activity';
+                $title = 'Friends of ' . $this->screenName . ': Low activity';
                 break;
             case self::SORTING_CELEB_STATUS:
                 $friends = $this->sortByFollowersFriendsRatio($friends);
                 $profileType = 'celeb';
-                $title = 'Friends of ' . $screenName . ': Celebrity status';
+                $title = 'Friends of ' . $this->screenName . ': Celebrity status';
                 break;
             default:
                 // No sorting.

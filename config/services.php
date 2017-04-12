@@ -34,4 +34,13 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+
+    'twitter' => [
+        'key' => env('TWITTER_CONSUMER_KEY'),
+        'key_secret' => env('TWITTER_CONSUMER_KEY_SECRET'),
+        'token' => env('TWITTER_ACCESS_TOKEN'),
+        'token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
+        'cache_expire' => env('TWITTER_FRIENDS_CACHE_EXPIRE'),
+        'user' => env('TWITTER_USER'),
+    ],
 ];

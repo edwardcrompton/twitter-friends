@@ -55,7 +55,7 @@ abstract class ProfileBaseController extends Controller
     public function __construct(TwitterOAuth $client)
     {
         $this->client = $client;
-        $this->cacheExpire = env('TWITTER_FRIENDS_CACHE_EXPIRE', static::CACHE_EXPIRE);
+        $this->cacheExpire = config('services.twitter.cache_expire', 0);
     }
     
     /**
@@ -86,6 +86,12 @@ abstract class ProfileBaseController extends Controller
     protected function loadFriendsFromRemote()
     {
         $friends = $this->client->get('friends/ids', ['screen_name' => $this->screenName]);
+
+        if (!isset($friends->errors)) {
+            // @todo: Do something to handle the errors.
+            return;
+        }
+
         return $this->profileIdsToObjects($friends);
     }
     

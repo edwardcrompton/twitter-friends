@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Abraham\TwitterOAuth\TwitterOAuth;
 
 class TwitterOAuthServiceProvider extends ServiceProvider
 {
@@ -25,10 +24,10 @@ class TwitterOAuthServiceProvider extends ServiceProvider
     public function register() {
       $this->app->bind('\Abraham\TwitterOAuth\TwitterOAuth', function () {
         return new \Abraham\TwitterOAuth\TwitterOAuth(
-          env('TWITTER_CONSUMER_KEY'),
-          env('TWITTER_CONSUMER_KEY_SECRET'),
-          env('TWITTER_ACCESS_TOKEN'),
-          env('TWITTER_ACCESS_TOKEN_SECRET')
+            config('services.twitter.key'),
+            config('services.twitter.key_secret'),
+            config('services.twitter.token'),
+            config('services.twitter.token_secret')
         );
       });
     }

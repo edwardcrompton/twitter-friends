@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('layouts.topmenu', function($view) 
         {
-            $view->with('mainhandle', env('TWITTER_USER'));
+            $view->with('mainhandle', config('services.twitter.user'));
         });
     }
 
