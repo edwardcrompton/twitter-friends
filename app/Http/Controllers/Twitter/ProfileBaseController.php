@@ -19,8 +19,6 @@ use Illuminate\Http\Request;
  */
 abstract class ProfileBaseController extends Controller
 {
-    // The default number of minutes to cache profiles fetched from the API.
-    const CACHE_EXPIRE = 360;
     // The prefix for the cache keys used to store friends.
     const FRIENDS_CACHE_KEY = 'friends';
     // The maximum number of friend ids that can be used in a request for friends
@@ -70,7 +68,7 @@ abstract class ProfileBaseController extends Controller
         $cacheKey = self::FRIENDS_CACHE_KEY . '_' . $this->screenName;
         if (!Cache::has($cacheKey)) {
             $friendObjects = $this->loadFriendsFromRemote();
-            Cache::add($cacheKey, $friendObjects, self::CACHE_EXPIRE);
+            Cache::add($cacheKey, $friendObjects, $this->cacheExpire);
             return $friendObjects;
         }
 
