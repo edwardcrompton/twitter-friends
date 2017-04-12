@@ -232,15 +232,4 @@ abstract class ProfileBaseController extends Controller
         });
         return $profiles;
     }
-    
-    /**
-     * Fetches id properties from an array of profile objects.
-     */
-    private function getProfileIds($profiles) {
-        $ids = array();
-        foreach ($profiles as $profile) {
-            $ids[] = $profile->id;
-        }
-        return $ids;
-    }
 }

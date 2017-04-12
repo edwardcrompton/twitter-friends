@@ -109,6 +109,8 @@ class FollowersController extends ProfileBaseController {
         $savedFollowers = $this->getSavedFollowers();
         
         if ($latestFollowers = $this->getUpdatedFollowers()) {
+            // @todo: Separate out the action of getting the followers and
+            // saving the unfollowers.
             $this->saveUnfollowers($savedFollowers, $latestFollowers);
             return $latestFollowers;
         }
@@ -152,6 +154,8 @@ class FollowersController extends ProfileBaseController {
         
         if ($followersSavedTimestamp && time() - $followersSavedTimestamp > $this->cacheExpire * 60) {
             $latestFollowers = $this->loadFollowersFromRemote();
+            // @todo: Separate out the action of fetching profiles and saving
+            // them to the database.
             $this->saveProfiles($latestFollowers, static::PROFILE_TYPE_FOLLOWER);
             // Setting is a vendor package for storing variables.
             Setting::set('followers_updated', time());
@@ -172,8 +176,6 @@ class FollowersController extends ProfileBaseController {
         $savedFollowers = Profile::where('follower', 1)->get();
         $followerObjects = array();
         foreach ($savedFollowers as $follower) {
-            // @todo: Seems redundant.
-            $profile = $follower->profile;
             // By unserializing the saved profile field we'll get the whole
             // profile with the same object structure as it was when returned
             // by the API.
