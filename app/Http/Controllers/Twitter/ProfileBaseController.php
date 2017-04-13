@@ -85,7 +85,7 @@ abstract class ProfileBaseController extends Controller
     {
         $friends = $this->client->get('friends/ids', ['screen_name' => $this->screenName]);
 
-        if (!isset($friends->errors)) {
+        if (isset($friends->errors)) {
             // @todo: Do something to handle the errors.
             return;
         }
