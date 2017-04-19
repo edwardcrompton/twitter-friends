@@ -27,3 +27,4 @@ env:
 before_install:
     - composer install --no-interaction
     - php artisan migrate:install
+    - php artisan migrate:status
