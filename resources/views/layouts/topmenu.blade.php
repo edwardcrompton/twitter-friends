@@ -17,13 +17,13 @@
                     </li>
                     <li role="separator" class="divider"></li>
                     <li>
-                        <a href="{{ action('Twitter\FollowersController@showFollowers', [$mainhandle, 'celebs']) }}">
+                        <a href="{{ action('Twitter\MainFollowersController@showFollowers', [$mainhandle, 'celebs']) }}">
                             Followers: Celebs
                         </a>
                     </li>
                     <li role="separator" class="divider"></li>
                     <li>
-                        <a href="{{ action('Twitter\FollowersController@showUnfollowers', [$mainhandle]) }}">
+                        <a href="{{ action('Twitter\MainFollowersController@showUnfollowers', [$mainhandle]) }}">
                             Followers: Unfollowed
                         </a>
                     </li>

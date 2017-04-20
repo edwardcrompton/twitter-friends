@@ -46,7 +46,7 @@ abstract class ProfileBaseController extends Controller
     protected $cacheExpire = 0;
 
     /**
-     * FollowersController constructor.
+     * ProfileBaseController constructor.
      *
      * @param TwitterOAuth $client
      */

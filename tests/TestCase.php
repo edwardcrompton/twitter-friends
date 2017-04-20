@@ -10,6 +10,11 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected $baseUrl = 'http://localhost';
 
     /**
+     * The twitter handle to use to run tests.
+     */
+    protected $twitterHandle = 'ed_crompton';
+
+    /**
      * Creates the application.
      *
      * @return \Illuminate\Foundation\Application

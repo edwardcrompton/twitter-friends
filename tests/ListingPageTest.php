@@ -9,8 +9,8 @@ class ListingPageTest extends TestCase
      */
     public function testBasicFollowersPage()
     {
-        $this->visit('laravelphp/followers/celebs')
-             ->see('Followers of laravelphp: Celebrity status');
+        $this->visit($this->twitterHandle . '/followers/celebs')
+             ->see('Followers of ' . $this->twitterHandle . ': Celebrity status');
     }
 
     /**
@@ -20,10 +20,10 @@ class ListingPageTest extends TestCase
      */
     public function testBasicFriendsPage()
     {
-        $this->visit('laravelphp/friends/celebs')
-          ->see('Friends of laravelphp: Celebrity status');
+        $this->visit($this->twitterHandle . '/friends/celebs')
+          ->see('Friends of ' . $this->twitterHandle . ': Celebrity status');
 
-        $this->visit('laravelphp/friends/lastupdated')
-          ->see('Friends of laravelphp: Low activity');
+        $this->visit($this->twitterHandle . '/friends/lastupdated')
+          ->see('Friends of ' . $this->twitterHandle . ': Low activity');
     }
 }

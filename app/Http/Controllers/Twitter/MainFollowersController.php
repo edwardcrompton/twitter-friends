@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *  Contains FollowersController class.
+ *  Contains MainFollowersController class.
  */
 
 namespace App\Http\Controllers\Twitter;
@@ -11,9 +11,9 @@ use Setting;
 use App\Profile;
 
 /**
- * FollowersController class for handling actions to do with followers.
+ * MainFollowersController class for handling actions to do with followers.
  */
-class FollowersController extends ProfileBaseController {
+class MainFollowersController extends ProfileBaseController {
 
     // A string to denote sorting by 'celebrity status'.
     const SORTING_CELEB_STATUS = 'celebs';

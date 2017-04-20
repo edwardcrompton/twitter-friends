@@ -20,12 +20,12 @@ Route::get('/', function () {
 Route::get('/{screenName}/friends/{sorting}', 'Twitter\FriendsController@showFriends');
 
 // Does it matter what's inside the {} in the place holders?
-Route::get('/{screenName}/followers/{sorting}', 'Twitter\FollowersController@showFollowers');
+Route::get('/{screenName}/followers/{sorting}', 'Twitter\MainFollowersController@showFollowers');
 
 //
-Route::get('/{screenName}/unfollowers', 'Twitter\FollowersController@showUnfollowers');
+Route::get('/{screenName}/unfollowers', 'Twitter\MainFollowersController@showUnfollowers');
 
-Route::get('/{screenName}/updatefollowers', 'Twitter\FollowersController@updateFollowers');
+Route::get('/{screenName}/updatefollowers', 'Twitter\MainFollowersController@updateFollowers');
 
 // @todo: I think this should be moved somewhere special.
 App::bind('LengthAwarePaginator', function ($app, $params) {
