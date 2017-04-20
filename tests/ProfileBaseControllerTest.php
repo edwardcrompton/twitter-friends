@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Twitter\MainFollowersController;
+use App\Http\Controllers\Twitter\FollowersController;
 use App\Http\Controllers\Twitter;
 
 /**

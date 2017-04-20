@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *  Contains MainFollowersController class.
+ *  Contains FollowersController class.
  */
 
 namespace App\Http\Controllers\Twitter;
@@ -11,9 +11,9 @@ use Setting;
 use App\Profile;
 
 /**
- * MainFollowersController class for handling actions to do with followers.
+ * FollowersController class for handling actions to do with followers.
  */
-class MainFollowersController extends ProfileBaseController {
+class FollowersController extends ProfileBaseController {
 
     // A string to denote sorting by 'celebrity status'.
     const SORTING_CELEB_STATUS = 'celebs';
@@ -36,7 +36,16 @@ class MainFollowersController extends ProfileBaseController {
         
         switch ($sorting) {
             case self::SORTING_CELEB_STATUS:
-                $followers = $this->sortByFollowersFriendsRatio($this->getSavedFollowers());
+                // If we're looking at the followers of the main handle, then
+                // we can cache the results, always fetch them fresh if not.
+                $cacheable = $this->screenName == config('services.twitter.user');
+                if ($cacheable) {
+                    $followers = $this->sortByFollowersFriendsRatio($this->getSavedFollowers());
+                }
+                else {
+                    $followers = $this->sortByFollowersFriendsRatio($this->loadFollowersFromRemote());
+                }
+
                 $profileType = 'celeb';
                 $title = 'Followers of ' . $this->screenName . ': Celebrity status';
                 break;
