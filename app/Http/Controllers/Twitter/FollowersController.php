@@ -36,7 +36,7 @@ class FollowersController extends ProfileBaseController {
         
         switch ($sorting) {
             case self::SORTING_CELEB_STATUS:
-                $followers = $this->sortByFollowersFriendsRatio($this->getFollowers());
+                $followers = $this->sortByFollowersFriendsRatio($this->getSavedFollowers());
                 $profileType = 'celeb';
                 $title = 'Followers of ' . $this->screenName . ': Celebrity status';
                 break;
@@ -80,6 +80,28 @@ class FollowersController extends ProfileBaseController {
           'linkToTwitter' => self::EXTERNAL_LINK_TO_TWITTER,
         ]);
     }
+
+    /**
+     * Updates the followers in the database using the results of a request to
+     * the remote API.
+     *
+     * @param string $screenName
+     *  The screenname of the twitter user whose followers we want.
+     */
+    public function updateFollowers($screenName) {
+        $this->screenName = $screenName;
+
+        $previousFollowers = $this->getSavedFollowers();
+        $currentFollowers = $this->loadFollowersFromRemote();
+
+        // Save the unfollowers.
+        $this->saveUnfollowers($previousFollowers, $currentFollowers);
+
+        // Save the current followers.
+        $this->saveFollowers($currentFollowers);
+
+        return 'Followers updated.';
+    }
     
     /**
      * Update the profiles in the database that have unfollowed.
@@ -96,26 +118,6 @@ class FollowersController extends ProfileBaseController {
         $unfollowers = array_diff_key($previousFollowers, $currentFollowers);
         
         $this->saveProfiles($unfollowers, static::PROFILE_TYPE_UNFOLLOWER);
-    }
-    
-    /**
-     * Get the array of followers of a handle, either from the API or from cache.
-     *
-     * @return array
-     *  An array of follower objects.
-     */
-    public function getFollowers()
-    {
-        $savedFollowers = $this->getSavedFollowers();
-        
-        if ($latestFollowers = $this->getUpdatedFollowers()) {
-            // @todo: Separate out the action of getting the followers and
-            // saving the unfollowers.
-            $this->saveUnfollowers($savedFollowers, $latestFollowers);
-            return $latestFollowers;
-        }
-        
-        return $savedFollowers;
     }
 
     /**
@@ -140,30 +142,18 @@ class FollowersController extends ProfileBaseController {
         }
         return $unFollowerObjects;
     }
-    
+
     /**
-     * If the maximum cache time has elapsed since followers were last saved
-     * to the database, load them again and save them to the database, updating 
-     * the timestamp as we do so.
-     * 
-     * @return array
-     *  The latest followers, or an empty array if there is no update.
+     * Save an array of followers to the database with an updated timestamp.
+     *
+     * @param array $latestFollowers.
+     *  The latest followers to save.
      */
-    protected function getUpdatedFollowers() {
-        $followersSavedTimestamp = Setting::get('followers_updated', 0);
-        
-        if ($followersSavedTimestamp && time() - $followersSavedTimestamp > $this->cacheExpire * 60) {
-            $latestFollowers = $this->loadFollowersFromRemote();
-            // @todo: Separate out the action of fetching profiles and saving
-            // them to the database.
-            $this->saveProfiles($latestFollowers, static::PROFILE_TYPE_FOLLOWER);
-            // Setting is a vendor package for storing variables.
-            Setting::set('followers_updated', time());
-            Setting::save();
-            return $latestFollowers;
-        }
-        
-        return array();
+    protected function saveFollowers($latestFollowers) {
+        $this->saveProfiles($latestFollowers, static::PROFILE_TYPE_FOLLOWER);
+        // Setting is a vendor package for storing variables.
+        Setting::set('followers_updated', time());
+        Setting::save();
     }
     
     /**
