@@ -63,13 +63,6 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
-It's useful to store follower profiles in the db for the 'master user' but when 
-drilling down to followers, of followers we can cache these more simply.
-
-Build a screen to show followers.
-
-Allow drill down by reinstating caching for followers of followers.
-
 Database storage and variable storage is all file based a the moment. Making it 
 db based would be better.
 
