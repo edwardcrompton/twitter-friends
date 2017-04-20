@@ -70,7 +70,7 @@ class FollowersController extends ProfileBaseController {
 
         $title = 'People who have unfollowed ' . $this->screenName;
 
-        $profileType = 'celeb';
+        $profileType = 'unfollower';
 
         $paginatedUnfollowers = $this->paginateProfiles($this->getUnfollowers(), $request);
         return view('reports.profiles', [

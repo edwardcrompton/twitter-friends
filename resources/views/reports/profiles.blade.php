@@ -22,6 +22,10 @@
                 @foreach ($profiles as $profile)
                     @include ('reports.celeb', [$profile])
                 @endforeach
+            @elseif ($profiletype == 'unfollower')
+                @foreach ($profiles as $profile)
+                    @include ('reports.unfollower', [$profile])
+                @endforeach
             @endif
         @endif
     </div>
