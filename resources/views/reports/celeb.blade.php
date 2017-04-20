@@ -10,6 +10,6 @@
         </a>
         <p>{{ '@'.$profile->screen_name }}</p>
         <p>{{ $profile->friends_count }} friends</p>
-        <p>{{HTML::linkAction('Twitter\FollowersController@showFollowers', $profile->followers_count . ' followers', array($profile->screen_name, 'celebs'))}}</p>
+        <p>{{ $profile->followers_count }} followers</p>
     </div>
 </div>

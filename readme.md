@@ -54,6 +54,12 @@ Run the migration to create the database tables:
 
 `php artisan migrate`
 
+Permissions problems with the filesystem in homestead, I solved with this
+
+http://laravel-recipes.com/recipes/26/creating-a-nginx-virtualhost
+
+www-conf needed to have the user changed from www-data to vagrant.
+
 To do next
 ----------
 
