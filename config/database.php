@@ -53,7 +53,7 @@ return [
         ],
 
         'sqlite_testing' => [
-            'driver' => 'sqlite3',
+            'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',
         ],

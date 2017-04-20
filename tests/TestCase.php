@@ -17,10 +17,27 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         $this->baseUrl = env('APP_URL');
+
+        putenv('DB_CONNECTION=sqlite_testing');
+
         $app = require __DIR__.'/../bootstrap/app.php';
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+        // Run all the migrations to set up the application.
+        Artisan::call('migrate');
+    }
+
+    public function tearDown()
+    {
+        // Rest all the migrations ready for the next test.
+        Artisan::call('migrate:reset');
+        parent::tearDown();
     }
 }
