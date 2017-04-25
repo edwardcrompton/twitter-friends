@@ -6,6 +6,13 @@ Twitter Friends
 A Laravel based application to provide visibility on the people you follow on 
 Twitter and their recent activity.
 
+The application shows:
+- People who follow you ordered by their friends to followers ratio ('Celeb' status).
+- People you follow ordered by their Celeb status
+- People you follow based on how long ago they last tweeted so that you can 
+consider unfollowing them.
+- A list of people who have unfollowed you, periodically updated with a cron job.
+
 Installation
 ------------
 
