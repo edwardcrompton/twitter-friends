@@ -29,4 +29,14 @@ class ListingPageTest extends TestCase
           ->click('Friends: Old profiles')
           ->see('Friends of ' . $this->twitterHandle . ': Low activity');
     }
+
+    /**
+     * A basic functional test for the unfollowers page.
+     */
+    public function testBasicUnfollowersPage()
+    {
+        $this->visit('/')
+          ->click('Followers: Unfollowed')
+          ->see('People who have unfollowed ' . $this->twitterHandle);
+    }
 }
