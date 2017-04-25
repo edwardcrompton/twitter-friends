@@ -9,21 +9,24 @@ class ListingPageTest extends TestCase
      */
     public function testBasicFollowersPage()
     {
-        $this->visit($this->twitterHandle . '/followers/celebs')
-             ->see('Followers of ' . $this->twitterHandle . ': Celebrity status');
+        $this->visit('/')
+          ->click('Followers: Celebs')
+          ->see('Followers of ' . $this->twitterHandle . ': Celebrity status');
     }
 
     /**
-     * A basic functional test for the followers page.
+     * A basic functional test for the friends pages.
      *
      * @return void
      */
     public function testBasicFriendsPage()
     {
-        $this->visit($this->twitterHandle . '/friends/celebs')
+        $this->visit('/')
+          ->click('Friends: Celebs')
           ->see('Friends of ' . $this->twitterHandle . ': Celebrity status');
 
-        $this->visit($this->twitterHandle . '/friends/lastupdated')
+        $this->visit('/')
+          ->click('Friends: Old profiles')
           ->see('Friends of ' . $this->twitterHandle . ': Low activity');
     }
 }
