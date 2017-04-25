@@ -66,15 +66,13 @@ To do next
 Database storage and variable storage is all file based a the moment. Making it 
 db based would be better.
 
-Concentrate on a self hosted system designed to gather information for a single
-user.
-
 Periodically check who is following you so we can tell who has unfollowed you.
+This should be done with a cron job that hits http://twitter-friends.app/[handle]/updatefollowers
+
+Make the code more unit testable and write some extra tests.
 
 Using the api or local storage, add stats showing who you've followed vs who has
 followed you back vs who is unlikely to ever follow you back.
-
-Add menu system and the ability to enter a twitter handle in a form
 
 OR
 
