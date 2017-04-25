@@ -37,7 +37,7 @@ class FollowersController extends ProfileBaseController {
         switch ($sorting) {
             case self::SORTING_CELEB_STATUS:
                 // If we're looking at the followers of the main handle, then
-                // we can cache the results, always fetch them fresh if not.
+                // we can cache the results, otherwise fetch them fresh.
                 $cacheable = $this->screenName == config('services.twitter.user');
                 if ($cacheable) {
                     $followers = $this->sortByFollowersFriendsRatio($this->getSavedFollowers());
