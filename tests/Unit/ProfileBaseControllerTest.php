@@ -30,8 +30,8 @@ class ProfileBaseControllerTest extends TestCase
 
         $followersController = App::make(FollowersController::class);
         $sortedProfiles = $followersController->sortByLastUpdate($profiles);
-
-        $expectedSortedProfiles = array(
+        
+        $this->assertEquals(array(
             (object) array('status' => (object) array(
                 'created_at' => "10/31/2016 00:00:00",
             )),
@@ -44,9 +44,7 @@ class ProfileBaseControllerTest extends TestCase
             )),
             (object) array('status' => (object) array(
                 'created_at' => "01/01/2017 06:21:00",
-            )),
-        );
-
-        $this->assertEquals($expectedSortedProfiles, $sortedProfiles);
+            ))
+        ), $sortedProfiles);
     }
 }
