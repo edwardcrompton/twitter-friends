@@ -15,10 +15,10 @@ class ProfileBaseControllerTest extends TestCase
     public function testSortByLastUpdate() {
         $profiles = array(
             (object) array('status' => (object) array(
-                'created_at' => "31/10/2016 00:00:00",
+                'created_at' => "26/11/2016 00:00:00",
             )),
             (object) array('status' => (object) array(
-                'created_at' => "26/11/2016 00:00:00",
+                'created_at' => "31/10/2016 00:00:00",
             )),
             (object) array('status' => (object) array(
                 'created_at' => "01/01/2017 06:21:00",
@@ -28,10 +28,11 @@ class ProfileBaseControllerTest extends TestCase
             )),
         );
 
-        $followersController = App::make('\App\Http\Controllers\Twitter\FollowersController');
-        $followersController->sortByLastUpdate($profiles);
+        //$followersController = App::make('\App\Http\Controllers\Twitter\FollowersController');
+        $followersController = App::make(FollowersController::class);
+        $sortedProfiles = $followersController->sortByLastUpdate($profiles);
 
         // @todo: Make sure that $profiles is ordered correctly.
-        var_dump($profiles);
+        var_dump($sortedProfiles);
     }
 }

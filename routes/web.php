@@ -19,10 +19,9 @@ Route::get('/', function () {
 
 Route::get('/{screenName}/friends/{sorting}', 'Twitter\FriendsController@showFriends');
 
-// Does it matter what's inside the {} in the place holders?
+// The names of the wildcards inside {} only seem to matter for route model binding.
 Route::get('/{screenName}/followers/{sorting}', 'Twitter\FollowersController@showFollowers');
 
-//
 Route::get('/{screenName}/unfollowers', 'Twitter\FollowersController@showUnfollowers');
 
 Route::get('/{screenName}/updatefollowers', 'Twitter\FollowersController@updateFollowers');
