@@ -13,11 +13,9 @@ use App\Profile;
 class ProfileTest extends TestCase
 {
     /**
-     * A basic test example.
-     *
-     * @return void
+     * @test
      */
-    public function testProfileHasId()
+    public function ProfileHasId()
     {
         // This is pretty useless because we could add any property to a Profile.
         // @todo: Restructure profiles so that they use getters and setters?

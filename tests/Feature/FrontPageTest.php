@@ -3,11 +3,9 @@
 class FrontPageTest extends TestCase
 {
     /**
-     * A basic functional test for the front page.
-     *
-     * @return void
+     * @test
      */
-    public function testBasicFrontPage()
+    public function FrontPageLoadsWithTitle()
     {
         $this->visit('/')
              ->see('Twitter Friends');

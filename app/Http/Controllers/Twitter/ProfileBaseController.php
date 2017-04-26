@@ -123,6 +123,8 @@ abstract class ProfileBaseController extends Controller
         foreach ($profileObjects as $profileObject) {
             $profile = Profile::firstOrNew(['id' => $profileObject->id]);
             $profile->handle = $profileObject->screen_name;
+            // @todo: Not sure if we need this line as firstOrNew should pass
+            // the profileObject->id into the constructor if it's new.
             $profile->id = $profileObject->id;
             $profile->friend = $type == static::PROFILE_TYPE_FRIEND;
             $profile->follower = $type == static::PROFILE_TYPE_FOLLOWER;

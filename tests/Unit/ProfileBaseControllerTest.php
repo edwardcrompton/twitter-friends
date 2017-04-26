@@ -10,9 +10,9 @@ use App\Http\Controllers\Twitter;
 class ProfileBaseControllerTest extends TestCase
 {
     /**
-     * Unit test for the sortByLastUpdate method.
+     * @test
      */
-    public function testSortByLastUpdate() {
+    public function SortByLastUpdate() {
         $profiles = array(
             (object) array('status' => (object) array(
                 'created_at' => "11/26/2016 00:00:00",
@@ -30,7 +30,7 @@ class ProfileBaseControllerTest extends TestCase
 
         $followersController = App::make(FollowersController::class);
         $sortedProfiles = $followersController->sortByLastUpdate($profiles);
-        
+
         $this->assertEquals(array(
             (object) array('status' => (object) array(
                 'created_at' => "10/31/2016 00:00:00",

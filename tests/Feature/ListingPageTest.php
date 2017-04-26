@@ -3,11 +3,9 @@
 class ListingPageTest extends TestCase
 {
     /**
-     * A basic functional test for the followers page.
-     *
-     * @return void
+     * @test
      */
-    public function testBasicFollowersPage()
+    public function CelebsFollowersPageLoadsWithTitle()
     {
         $this->visit('/')
           ->click('Followers: Celebs')
@@ -15,25 +13,30 @@ class ListingPageTest extends TestCase
     }
 
     /**
-     * A basic functional test for the friends pages.
-     *
-     * @return void
+     * @test
      */
-    public function testBasicFriendsPage()
+    public function CelebsFriendsPageLoadsWithTitle()
     {
         $this->visit('/')
           ->click('Friends: Celebs')
           ->see('Friends of ' . $this->twitterHandle . ': Celebrity status');
 
-        $this->visit('/')
-          ->click('Friends: Old profiles')
-          ->see('Friends of ' . $this->twitterHandle . ': Low activity');
     }
 
     /**
-     * A basic functional test for the unfollowers page.
+     * @test
      */
-    public function testBasicUnfollowersPage()
+    public function OldFriendsPageLoadsWithTitle() {
+        $this->visit('/')
+          ->click('Friends: Old profiles')
+          ->see('Friends of ' . $this->twitterHandle . ': Low activity');
+
+    }
+
+    /**
+     * @test
+     */
+    public function UnfollowersPageLoadsWithTitle()
     {
         $this->visit('/')
           ->click('Followers: Unfollowed')

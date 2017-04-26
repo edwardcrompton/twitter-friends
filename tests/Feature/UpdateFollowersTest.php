@@ -12,11 +12,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class UpdateFollowersTest extends TestCase
 {
     /**
-     * Testing the update followers route.
-     *
-     * @return void
+     * @test
      */
-    public function testUpdateFollowersRoute()
+    public function UpdateFollowersRouteLoadsWithText()
     {
         $this->visit($this->twitterHandle . '/updatefollowers')
           ->see('Followers updated');
