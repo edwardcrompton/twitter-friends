@@ -25,9 +25,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Profile::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'id' => $faker->name,
         'handle' => $faker->unique()->safeEmail,
         'friend' => $faker->boolean(),
         'follower' => $faker->boolean(),
+        'profile' => serialize('fake_profile'),
     ];
 });
