@@ -5,6 +5,7 @@
  */
 
 use App\Profile;
+use App\Http\Controllers\Twitter\FollowersController;
 
 /**
  * Class ProfileTest
@@ -46,5 +47,20 @@ class ProfileTest extends TestCase
     {
         $profile = factory(Profile::class)->create(['follower' => 1]);
         $this->assertEquals(1, $profile->follower);
+    }
+
+    /**
+     * @test
+     */
+    public function MultipleProfilesCanBeSaved()
+    {
+        $profiles = [
+            factory(Profile::class)->make(['id' => 987]),
+            factory(Profile::class)->make(['id' => 988]),
+            factory(Profile::class)->make(['id' => 989]),
+        ];
+
+        $followersController = App::make(FollowersController::class);
+        $followersController->saveProfiles($profiles, static::PROFILE_TYPE_FRIEND);
     }
 }
