@@ -117,9 +117,6 @@ abstract class ProfileBaseController extends Controller
      */
     protected function saveProfiles($profileObjects, $type) 
     {
-        // We have to allow all fields to be fillable whilst we're creating
-        // profiles en-masse.
-        Profile::unguard();
         foreach ($profileObjects as $profileObject) {
             $profile = Profile::firstOrNew(['id' => $profileObject->id]);
             $profile->handle = $profileObject->screen_name;
@@ -131,7 +128,6 @@ abstract class ProfileBaseController extends Controller
             $profile->profile = serialize($profileObject);
             $profile->save();
         }
-        Profile::reguard();
     }
     
     /**
