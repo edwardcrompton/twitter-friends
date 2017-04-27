@@ -61,6 +61,11 @@ class ProfileTest extends TestCase
         ];
 
         $followersController = App::make(FollowersController::class);
-        $followersController->saveProfiles($profiles, static::PROFILE_TYPE_FRIEND);
+        $followersController->saveProfiles($profiles, 1);
+
+        // Load the profiles by their ids to check they exist.
+        // Also put a temp line in here to check we're using the temp db.
+        $firstProfile = Profile::all();
+        print_r($firstProfile);
     }
 }
