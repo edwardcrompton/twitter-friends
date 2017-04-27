@@ -15,11 +15,36 @@ class ProfileTest extends TestCase
     /**
      * @test
      */
-    public function ProfileHasId()
+    public function ProfileHasHandle()
     {
-        // This is pretty useless because we could add any property to a Profile.
-        // @todo: Restructure profiles so that they use getters and setters?
-        $profile = factory(Profile::class)->create(['id' => 123]);
-        $profile->save();
+        $profile = factory(Profile::class)->create(['handle' => 'fakehandle']);
+        $this->assertEquals('fakehandle', $profile->handle);
+    }
+
+    /**
+     * @test
+     */
+    public function ProfileHasSerialisedProfileData()
+    {
+        $profile = factory(Profile::class)->create(['profile' => serialize('fakeprofile')]);
+        $this->assertEquals(serialize('fakeprofile'), $profile->profile);
+    }
+
+    /**
+     * @test
+     */
+    public function ProfileHasFriendFlag()
+    {
+        $profile = factory(Profile::class)->create(['friend' => 1]);
+        $this->assertEquals(1, $profile->friend);
+    }
+
+    /**
+     * @test
+     */
+    public function ProfileHasFollowerFlag()
+    {
+        $profile = factory(Profile::class)->create(['follower' => 1]);
+        $this->assertEquals(1, $profile->follower);
     }
 }
