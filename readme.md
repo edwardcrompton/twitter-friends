@@ -70,8 +70,10 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
-Database storage and variable storage is all file based a the moment. Making it 
+Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
+
+Dockerise the build so that we can get rid of the long installation instructions and use Docker instead.
 
 Periodically check who is following you so we can tell who has unfollowed you.
 This should be done with a cron job that hits http://twitter-friends.app/[handle]/updatefollowers
