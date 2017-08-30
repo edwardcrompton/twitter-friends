@@ -52,13 +52,12 @@ class ProfileTest extends TestCase
     /**
      * @test
      */
-    /*
     public function MultipleProfilesCanBeSaved()
     {
         $profiles = [
-            factory(Profile::class)->make(['id' => 987]),
-            factory(Profile::class)->make(['id' => 988]),
-            factory(Profile::class)->make(['id' => 989]),
+            factory(Profile::class)->make(['id' => 987, 'handle' => 'anna']),
+            factory(Profile::class)->make(['id' => 988, 'handle' => 'benny']),
+            factory(Profile::class)->make(['id' => 989, 'handle' => 'cilla']),
         ];
 
         $followersController = App::make(FollowersController::class);
@@ -68,5 +67,5 @@ class ProfileTest extends TestCase
         // Also put a temp line in here to check we're using the temp db.
         $firstProfile = Profile::all();
         print_r($firstProfile);
-    }*/
+    }
 }

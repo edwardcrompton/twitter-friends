@@ -158,7 +158,7 @@ class FollowersController extends ProfileBaseController {
      * @param array $latestFollowers.
      *  The latest followers to save.
      */
-    protected function saveFollowers($latestFollowers) {
+    public function saveFollowers($latestFollowers) {
         $this->saveProfiles($latestFollowers, static::PROFILE_TYPE_FOLLOWER);
         // Setting is a vendor package for storing variables.
         Setting::set('followers_updated', time());
