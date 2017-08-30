@@ -55,9 +55,9 @@ class ProfileTest extends TestCase
     public function MultipleProfilesCanBeSaved()
     {
         $profiles = [
-            factory(Profile::class)->make(['id' => 987, 'handle' => 'anna']),
-            factory(Profile::class)->make(['id' => 988, 'handle' => 'benny']),
-            factory(Profile::class)->make(['id' => 989, 'handle' => 'cilla']),
+            factory(Profile::class)->make(['id' => 987, 'screen_name' => 'anna']),
+            factory(Profile::class)->make(['id' => 988, 'screen_name' => 'benny']),
+            factory(Profile::class)->make(['id' => 989, 'screen_name' => 'cilla']),
         ];
 
         $followersController = App::make(FollowersController::class);
