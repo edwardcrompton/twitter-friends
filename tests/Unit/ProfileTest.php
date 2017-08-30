@@ -52,6 +52,7 @@ class ProfileTest extends TestCase
     /**
      * @test
      */
+    /*
     public function MultipleProfilesCanBeSaved()
     {
         $profiles = [
@@ -67,5 +68,5 @@ class ProfileTest extends TestCase
         // Also put a temp line in here to check we're using the temp db.
         $firstProfile = Profile::all();
         print_r($firstProfile);
-    }
+    }*/
 }
