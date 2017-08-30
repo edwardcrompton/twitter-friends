@@ -115,7 +115,7 @@ abstract class ProfileBaseController extends Controller
      * 
      * @param type $profileObjects
      */
-    protected function saveProfiles($profileObjects, $type) 
+    public function saveProfiles($profileObjects, $type) 
     {
         foreach ($profileObjects as $profileObject) {
             $profile = Profile::firstOrNew(['id' => $profileObject->id]);
