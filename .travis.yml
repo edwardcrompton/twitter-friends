@@ -27,7 +27,6 @@ env:
     - TWITTER_USER=ed_crompton
 
 before_install:
-    - php artisan migrate:install
     - docker build -t twitter-friends .
     - docker run -d -p 127.0.0.1:8181:4567 twitter-friends /bin/sh -c "php artisan migrate:install"
     - docker ps -a
