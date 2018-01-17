@@ -70,6 +70,18 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
+A dockerfile now allows the app to be run in a docker container. This gets
+built by Travis CS when the develop branch gets pushed.
+
+Work out the best practice for setting up the database
+
+Travis currently runs no meaningful tests. It would run phpunit by default but
+this doesn't happen because Travis is essentially just running a docker
+container. Work out how the global variables should be imported into that
+container. Work out how to run the tests that I've written in Laravel and get
+a proper error code output. This might help:
+http://bencane.com/2016/01/11/using-travis-ci-to-test-docker-builds/
+
 Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
 
