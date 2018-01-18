@@ -82,17 +82,11 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
-A dockerfile now allows the app to be run in a docker container. This gets
-built by Travis CI when the develop branch gets pushed.
+Tests now run on Travis CI inside the docker container. However, they fail with 
+RuntimeException: The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.
 
-Work out the best practice for setting up the database
-
-Travis currently runs no meaningful tests. It would run phpunit by default but
-this doesn't happen because Travis is essentially just running a docker
-container. Work out how the global variables should be imported into that
-container. Work out how to run the tests that I've written in Laravel and get
-a proper error code output. This might help:
-http://bencane.com/2016/01/11/using-travis-ci-to-test-docker-builds/
+The APP_KEY environment variable seems to be correctly set inside the docker container. It's possible 
+Laravel tries to do something clever when tests are run and looks for a different environment var.
 
 Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
