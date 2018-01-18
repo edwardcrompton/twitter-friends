@@ -23,7 +23,6 @@ env:
 
 before_install:
     - docker build -t twitter-friends .
-    - docker run -d -p 127.0.0.1:8181:4567 twitter-friends /bin/sh -c "php artisan migrate:install"
 
 script:
-    - docker run twitter-friends /bin/sh -c "vendor/phpunit/phpunit/phpunit"
+    - docker run -t twitter-friends /bin/sh -c "vendor/phpunit/phpunit/phpunit"
