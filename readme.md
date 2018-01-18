@@ -71,7 +71,7 @@ To do next
 ----------
 
 A dockerfile now allows the app to be run in a docker container. This gets
-built by Travis CS when the develop branch gets pushed.
+built by Travis CI when the develop branch gets pushed.
 
 Work out the best practice for setting up the database
 
