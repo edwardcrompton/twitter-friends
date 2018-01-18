@@ -25,4 +25,4 @@ before_install:
     - docker build -t twitter-friends .
 
 script:
-    - docker run -t twitter-friends /bin/sh -c "touch .env; vendor/phpunit/phpunit/phpunit"
+    - docker run -t twitter-friends /bin/sh -c "vendor/phpunit/phpunit/phpunit"

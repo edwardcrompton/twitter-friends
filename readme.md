@@ -16,6 +16,18 @@ consider unfollowing them.
 Installation
 ------------
 
+### Docker
+
+Soon it should be possible to run the whole application using a few docker commands.
+
+To build the docker container, run:
+`docker build twitter-friends .`
+
+To run a server, run
+`docker run -d -p 8181:8181 twitter-friends`
+
+However, I need to work out whether a second database container is required and where the artisan migrate command should be called.
+
 ### Database set up
 
 Install sqlite on the homestead machine:
