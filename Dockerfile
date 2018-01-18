@@ -6,9 +6,7 @@ COPY composer.json /app/composer.json
 COPY composer.lock /app/composer.lock
 WORKDIR app
 RUN composer install --no-scripts --no-autoloader
-RUN touch .env
 COPY . /app
 RUN composer dump-autoload --optimize && composer run-script post-install-cmd
-RUN php artisan key:generate
 CMD php artisan serve --host=0.0.0.0 --port=8181
 EXPOSE 8181
