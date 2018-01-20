@@ -8,7 +8,5 @@ WORKDIR /app
 RUN composer install --no-scripts --no-autoloader
 COPY . /app
 RUN composer dump-autoload --optimize && composer run-script post-install-cmd
-COPY .env /app/.env
 EXPOSE 8181
-RUN php artisan config:clear
 CMD php artisan serve --host=0.0.0.0 --port=8181
