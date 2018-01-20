@@ -4,9 +4,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-install pdo mbstring
 COPY composer.json /app/composer.json
 COPY composer.lock /app/composer.lock
-WORKDIR app
+WORKDIR /app
 RUN composer install --no-scripts --no-autoloader
 COPY . /app
 RUN composer dump-autoload --optimize && composer run-script post-install-cmd
-CMD php artisan serve --host=0.0.0.0 --port=8181
+COPY .env /app/.env
 EXPOSE 8181
+RUN php artisan config:clear
+CMD php artisan serve --host=0.0.0.0 --port=8181

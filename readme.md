@@ -21,7 +21,7 @@ Installation
 Soon it should be possible to run the whole application using a few docker commands.
 
 To build the docker container, run:
-`docker build twitter-friends .`
+`docker build -t twitter-friends .`
 
 To run a server, run
 `docker run -d -p 8181:8181 twitter-friends`
