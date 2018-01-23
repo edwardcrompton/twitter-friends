@@ -82,6 +82,10 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
+Running tests locally, I seem to get an error which is related to using an old
+version of phpunit. Work out how to upgrade phpunit and its dependencies using
+composer.
+
 Tests now run on Travis CI inside the docker container. However, they fail with 
 RuntimeException: The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.
 
