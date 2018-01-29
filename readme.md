@@ -18,13 +18,13 @@ Installation
 
 ### Docker
 
-Soon it should be possible to run the whole application using a few docker commands.
+To build and run the application:
 
-To build the docker container, run:
-`docker build -t twitter-friends .`
+`docker-compose up -d`
 
-To run a server, run
-`docker run -d -p 8181:8181 twitter-friends`
+To run the tests:
+
+`docker-compose exec php ./vendor/bin/phpunit`
 
 However, I need to work out whether a second database container is required and where the artisan migrate command should be called.
 
@@ -82,9 +82,7 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
-Running tests locally, I seem to get an error which is related to using an old
-version of phpunit. Work out how to upgrade phpunit and its dependencies using
-composer.
+I can now successfully run tests locally. See if it works on Travis CI.
 
 Tests now run on Travis CI inside the docker container. However, they fail with 
 RuntimeException: The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.

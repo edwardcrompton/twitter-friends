@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  composer:
+    build: docker/composer/
+    volumes:
+      - .:/app
+    command: install
+
+  php:
+    build: docker/php/
+    volumes:
+      - .:/app
+    command: artisan serve --host=0.0.0.0 --port=8181
+    ports:
+      - "8181:8181"
