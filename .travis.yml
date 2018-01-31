@@ -22,7 +22,10 @@ env:
     - TWITTER_USER=ed_crompton
 
 before_install:
-    - docker-compose up
+    - docker-compose up --build -d
 
 script:
     - docker-compose exec php ./vendor/bin/phpunit
+
+after_script:
+    - docker-compose down

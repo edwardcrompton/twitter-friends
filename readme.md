@@ -26,8 +26,6 @@ To run the tests:
 
 `docker-compose exec php ./vendor/bin/phpunit`
 
-However, I need to work out whether a second database container is required and where the artisan migrate command should be called.
-
 ### Database set up
 
 Install sqlite on the homestead machine:
@@ -82,18 +80,19 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
-I can now successfully run tests locally. See if it works on Travis CI.
+Tests run locally inside the docker container.
 
-Tests now run on Travis CI inside the docker container. However, they fail with 
-RuntimeException: The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths.
+I've set up a proper nginx container that connects to a php-fpm container to
+serve the app.
 
-The APP_KEY environment variable seems to be correctly set inside the docker container. It's possible 
-Laravel tries to do something clever when tests are run and looks for a different environment var.
+However, I can't work out how to configure php-fpm to show errors properly.
+
+When running the docker-compose commands in travis, it seems to get stuck after
+the build. This may be because I need the -d switch. However, without it I seem
+to get errors about phpunit not existing.
 
 Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
-
-Dockerise the build so that we can get rid of the long installation instructions and use Docker instead.
 
 Periodically check who is following you so we can tell who has unfollowed you.
 This should be done with a cron job that hits http://twitter-friends.app/[handle]/updatefollowers
