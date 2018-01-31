@@ -22,7 +22,7 @@ env:
     - TWITTER_USER=ed_crompton
 
 before_install:
-    - docker build -t twitter-friends .
+    - docker-compose up -d
 
 script:
-    - docker run -t twitter-friends /bin/sh -c "vendor/phpunit/phpunit/phpunit"
+    - docker-compose exec php ./vendor/bin/phpunit
