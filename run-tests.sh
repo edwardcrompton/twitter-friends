@@ -4,10 +4,10 @@ docker-compose up -d --build
 
 COMPOSER_INSTALLING=1
 
-until [ "$COMPOSER_INSTALLING" == "0" ]; do
-  COMPOSER_INSTALLING=$(docker-compose ps -q php | xargs docker inspect -f '{{ .State.ExitCode }}')
+until [ "$COMPOSER_INSTALLING" == "false" ]; do
+  COMPOSER_INSTALLING=$(docker-compose ps -q composer | xargs docker inspect -f '{{ .State.Running }}')
   >&2 echo "Composer is installing"
-  sleep 5
+  sleep 1
 done
 
 exec docker-compose run php ./vendor/bin/phpunit
