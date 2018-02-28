@@ -10,6 +10,6 @@ until [ "$COMPOSER_INSTALLING" == "false" ]; do
   sleep 1
 done
 
-exec docker-compose run php ./vendor/bin/phpunit
+exec docker-compose exec php php artisan dusk
 
 exec docker-compose down
