@@ -80,6 +80,13 @@ www-conf needed to have the user changed from www-data to vagrant.
 To do next
 ----------
 
+Get Travis to run tests successfully.
+We have one test. It runs locally when running ./run-tests.sh and passes.
+In Travis it fails.
+Remember that env vars have to be added to the Travis UI. Not sure why they
+don't load from .travis.yml. Could there still be an env var that's present
+locally but not on Travis. Compare .env which Travis doesn't have.
+
 Tests run locally inside the docker container.
 
 I've set up a proper nginx container that connects to a php-fpm container to
