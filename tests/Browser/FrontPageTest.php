@@ -13,7 +13,7 @@ class FrontPageTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testPageExists()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
