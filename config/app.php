@@ -180,6 +180,8 @@ return [
         
         Collective\Html\HtmlServiceProvider::class,
         anlutro\LaravelSettings\ServiceProvider::class,
+
+        Laravel\Dusk\DuskServiceProvider::class,
     ],
 
     /*
