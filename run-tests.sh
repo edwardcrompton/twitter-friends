@@ -15,7 +15,7 @@ docker-compose exec php ls -lha /app/storage/
 docker-compose exec php ls -lha /app/bootstrap/
 
 echo "*** Running tests ***"
-docker-compose exec php php artisan dusk
+docker-compose exec php php artisan dusk -vvv
 
 echo "*** Showing the log ***"
 docker-compose exec php cat /usr/local/var/log/php-fpm.log
