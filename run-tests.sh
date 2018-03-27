@@ -10,14 +10,15 @@ until [ "$COMPOSER_INSTALLING" == "false" ]; do
   sleep 1
 done
 
-echo "*** Running tests ***"
-exec docker-compose exec php php artisan dusk
-
 echo "*** Showing permissions ***"
 exec docker-compose exec php ls /app/storage/*
+exec docker-compose exec php ls /app/bootrap/*
 
 echo "*** Showing logs ***"
 exec docker-compose exec nginx cat /var/log/nginx/error.log
+
+echo "*** Running tests ***"
+exec docker-compose exec php php artisan dusk
 
 echo "*** Shutting down ***"
 exec docker-compose down
