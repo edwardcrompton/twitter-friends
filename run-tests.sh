@@ -14,6 +14,9 @@ echo "*** Showing permissions ***"
 docker-compose exec php ls -lha /app/storage/
 docker-compose exec php ls -lha /app/bootstrap/
 
+echo "*** Testing artisan ***"
+docker-compose exec php php artisan inspire -vvv
+
 echo "*** Running tests ***"
 docker-compose exec php php artisan dusk -vvv
 
