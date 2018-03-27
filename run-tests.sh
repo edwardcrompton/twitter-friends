@@ -11,8 +11,8 @@ until [ "$COMPOSER_INSTALLING" == "false" ]; do
 done
 
 echo "*** Showing permissions ***"
-exec docker-compose exec php ls /app/storage/*
-exec docker-compose exec php ls /app/bootrap/*
+exec docker-compose exec php ls -lha /app/storage/
+exec docker-compose exec php ls -lha /app/bootstrap/
 
 echo "*** Showing logs ***"
 exec docker-compose exec nginx cat /var/log/nginx/error.log
