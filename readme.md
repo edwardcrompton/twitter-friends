@@ -24,9 +24,17 @@ To build and run the application:
 
 To run the tests:
 
-`docker-compose exec php ./vendor/bin/phpunit`
+`./run-tests.sh`
 
-### Database set up
+Travis CI
+---------
+
+Tests currently fail in Travis.
+
+However, when checking out the repository locally and running ./run-tests the
+tests also fail. There may be a build step missing from the docker config.
+
+### Database set up [Deprecated]
 
 Install sqlite on the homestead machine:
 
@@ -88,15 +96,6 @@ don't load from .travis.yml. Could there still be an env var that's present
 locally but not on Travis. Compare .env which Travis doesn't have.
 
 Tests run locally inside the docker container.
-
-I've set up a proper nginx container that connects to a php-fpm container to
-serve the app.
-
-However, I can't work out how to configure php-fpm to show errors properly.
-
-When running the docker-compose commands in travis, it seems to get stuck after
-the build. This may be because I need the -d switch. However, without it I seem
-to get errors about phpunit not existing.
 
 Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
