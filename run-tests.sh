@@ -14,10 +14,10 @@ echo "*** Running tests ***"
 exec docker-compose exec php php artisan dusk
 
 echo "*** Showing permissions ***"
-exec php ls /app/storage/*
+exec docker-compose exec php ls /app/storage/*
 
 echo "*** Showing logs ***"
-exec nginx cat /var/log/nginx/error.log
+exec docker-compose exec nginx cat /var/log/nginx/error.log
 
 echo "*** Shutting down ***"
 exec docker-compose down
