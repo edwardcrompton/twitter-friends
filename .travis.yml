@@ -9,7 +9,7 @@ env:
     - APP_KEY=base64:FyYcpaNkQgOWWfLSY94x6f6UnTGZZEAUoh4g5qL3zYM=
     - APP_DEBUG=true
     - APP_LOG_LEVEL=debug
-    - APP_URL=http://nginx:8181
+    - APP_URL=http://nginx
 
     - DB_CONNECTION=sqlite_testing
     - CACHE_DRIVER=file
