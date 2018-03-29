@@ -91,6 +91,13 @@ To do next
 Get Travis to run tests successfully.
 We have one test. It runs locally when running ./run-tests.sh and passes.
 In Travis it fails.
+
+There is some extra output in Travis now which should help debug this.
+
+Try installing artisan tinker. Then we could view the PHP configuration and see
+why PHP errors aren't getting sent to stdout. This would help as they'd be
+easier to display in travis then.
+
 Remember that env vars have to be added to the Travis UI. Not sure why they
 don't load from .travis.yml. Could there still be an env var that's present
 locally but not on Travis. Compare .env which Travis doesn't have.
