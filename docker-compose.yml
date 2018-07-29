@@ -9,6 +9,9 @@ services:
     volumes:
       - .:/app
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    environment:
+      - TWITTER_ACCESS_TOKEN_SECRET
+      - TWITTER_CONSUMER_KEY_SECRET
     networks:
       - app-network
 
@@ -23,6 +26,9 @@ services:
     volumes:
       - .:/app
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+    environment:
+      - TWITTER_ACCESS_TOKEN_SECRET
+      - TWITTER_CONSUMER_KEY_SECRET
     networks:
       - app-network
 

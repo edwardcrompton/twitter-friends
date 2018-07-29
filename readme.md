@@ -31,6 +31,24 @@ Travis CI
 
 Tests currently fail in Travis.
 
+Environment variables that are set in the OS of where PHP is running get
+imported into the $_ENV array in PHP. Laravel uses these for its own
+environment variables and they can be fetched with the Laravel env() function.
+
+PHP is running inside a Docker container inside Travis, but environment
+variables set in the Travis environment do not seem to be automatically sent
+to the Docker container running in Travis.
+
+Variables the are not sensitive or secret can be put in a .env.travis file which
+is copied to .env before starting the Docker containers in .travis.yml.
+
+Variables that ARE sensitive can be added to the Travis environment via the UI.
+This means they don't have to be committed to the repository in an .env file.
+
+In the docker-compose.yml file these variables are explicitly listed in the
+environment section of the configuration for the containers that they need to go
+into.
+
 However, when checking out the repository locally and running ./run-tests the
 tests also fail. There may be a build step missing from the docker config.
 
