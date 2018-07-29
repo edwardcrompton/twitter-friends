@@ -3,27 +3,8 @@ sudo: required
 services:
   - docker 
 
-env:
-  global:
-    - APP_ENV=staging
-    - APP_KEY=base64:FyYcpaNkQgOWWfLSY94x6f6UnTGZZEAUoh4g5qL3zYM=
-    - APP_DEBUG=true
-    - APP_LOG=errorlog
-    - APP_LOG_LEVEL=debug
-    - APP_URL=http://nginx
-
-    - DB_CONNECTION=sqlite_testing
-    - CACHE_DRIVER=file
-    - SESSION_DRIVER=file
-    - QUEUE_DRIVER=sync
-
-    - TWITTER_CONSUMER_KEY=9POH0moFpD1Ko2S5i12Rqwbps
-    - TWITTER_ACCESS_TOKEN=6515352-Ci9VVdJFgwjhzi3VoBsWNpQgWpl5YQEehrAocSi9Gj
-
-    - TWITTER_FRIENDS_CACHE_EXPIRE=360
-    - TWITTER_USER=ed_crompton
-    - LOG_CHANNEL=daily
-    - APP_LOG=daily
+before_script:
+  - cp .env.travis .env
 
 script:
     - ./run-tests.sh
