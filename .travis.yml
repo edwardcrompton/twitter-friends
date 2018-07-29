@@ -22,6 +22,7 @@ env:
 
     - TWITTER_FRIENDS_CACHE_EXPIRE=360
     - TWITTER_USER=ed_crompton
+    - LOG_CHANNEL=daily
 
 script:
     - ./run-tests.sh
