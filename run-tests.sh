@@ -15,10 +15,10 @@ docker-compose exec php ls -lha /app/storage/
 docker-compose exec php ls -lha /app/bootstrap/
 
 echo "*** Testing artisan ***"
-docker-compose exec php php artisan env -vvv
+docker-compose exec php php artisan env -vvv --env=testing
 
 echo "*** Running tests ***"
-docker-compose exec php php artisan dusk -vvv
+docker-compose exec php php artisan dusk -vvv --env=testing
 
 echo "*** Showing the php logs ***"
 docker-compose exec php cat storage/logs/laravel.log
