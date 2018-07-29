@@ -78,6 +78,12 @@ place of the xxx
 To do next
 ----------
 
+Examine the logs in the Travis build and try to work out why the test is failing
+when locally it's passing.
+
+The build it not marked as failed when the tests fail inside docker. Does this
+help? https://stackoverflow.com/questions/29568352/using-docker-compose-with-ci-how-to-deal-with-exit-codes-and-daemonized-linked
+
 Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
 
