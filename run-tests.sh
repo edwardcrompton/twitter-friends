@@ -20,5 +20,7 @@ docker-compose exec php php artisan env -vvv
 echo "*** Running tests ***"
 docker-compose exec php php artisan dusk -vvv
 
+cat storage/logs/laravel.log
+
 echo "*** Shutting down ***"
 exec docker-compose down
