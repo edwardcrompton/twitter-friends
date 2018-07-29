@@ -8,8 +8,9 @@ env:
     - APP_ENV=staging
     - APP_KEY=base64:FyYcpaNkQgOWWfLSY94x6f6UnTGZZEAUoh4g5qL3zYM=
     - APP_DEBUG=true
+    - APP_LOG=errorlog
     - APP_LOG_LEVEL=debug
-    - APP_URL=http://nginx:8181
+    - APP_URL=http://nginx
 
     - DB_CONNECTION=sqlite_testing
     - CACHE_DRIVER=file
@@ -21,6 +22,8 @@ env:
 
     - TWITTER_FRIENDS_CACHE_EXPIRE=360
     - TWITTER_USER=ed_crompton
+    - LOG_CHANNEL=daily
+    - APP_LOG=daily
 
 script:
     - ./run-tests.sh
