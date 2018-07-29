@@ -1,6 +1,7 @@
 <?php
 
 var_dump($_ENV);
+var_dump(env('TWITTER_CONSUMER_KEY'));
 
 return [
 
