@@ -16,12 +16,12 @@ docker-compose exec php php artisan env -vvv
 docker-compose exec php chmod -R 777 storage
 docker-compose exec php chmod -R 777 bootstrap/cache
 
-docker-compose exec php ls -lah storage
-docker-compose exec php ls -lah bootstrap
-docker-compose exec php ls -lah .
-
 echo "*** Running tests ***"
 docker-compose exec php php artisan dusk
 
+EXIT=$?
+
 echo "*** Shutting down ***"
 exec docker-compose down
+
+exit "$EXIT"

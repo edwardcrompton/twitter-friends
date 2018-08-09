@@ -80,6 +80,11 @@ To do next
 
 Examine the logs in the Travis build and try to work out why the test is failing
 when locally it's passing.
+- The test was failing because of permissions
+- Presumably these permissions were only a problem on the newly cloned repo (I'd
+probably changed them at some point in the past for my development clone).
+- Moral: If travis fails, try cloning a brand new code base and run the tests
+there.
 
 The build it not marked as failed when the tests fail inside docker. Does this
 help? https://stackoverflow.com/questions/29568352/using-docker-compose-with-ci-how-to-deal-with-exit-codes-and-daemonized-linked
