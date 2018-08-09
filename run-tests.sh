@@ -13,8 +13,12 @@ done
 echo "*** Testing artisan ***"
 docker-compose exec php php artisan env -vvv
 
+docker-compose exec php ls -lah storage
+docker-compose exec php ls -lah bootstrap
+docker-compose exec php ls -lah .
+
 echo "*** Running tests ***"
-docker-compose exec php php artisan dusk -vvv
+docker-compose exec php php artisan dusk
 
 echo "*** Shutting down ***"
 exec docker-compose down
