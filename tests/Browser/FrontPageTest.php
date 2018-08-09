@@ -17,7 +17,7 @@ class FrontPageTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee('Twitter Fiends');
+                    ->assertSee('Twitter Friends');
         });
     }
 }
