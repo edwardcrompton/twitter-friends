@@ -10,18 +10,4 @@ until [ "$COMPOSER_INSTALLING" == "false" ]; do
   sleep 1
 done
 
-echo "*** Testing artisan ***"
-docker-compose exec php php artisan env -vvv
-
-docker-compose exec php chmod -R 777 storage
-docker-compose exec php chmod -R 777 bootstrap/cache
-
-echo "*** Running tests ***"
 docker-compose exec php php artisan dusk
-
-EXIT=$?
-
-echo "*** Shutting down ***"
-exec docker-compose down
-
-exit "$EXIT"
