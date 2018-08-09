@@ -16,9 +16,5 @@ docker-compose exec php php artisan env -vvv
 echo "*** Running tests ***"
 docker-compose exec php php artisan dusk -vvv
 
-# This needs to be changed to use a dynamic date.
-echo "*** Logs ***"
-cat storage/logs/laravel-2018-08-09.log
-
 echo "*** Shutting down ***"
 exec docker-compose down
