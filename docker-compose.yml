@@ -26,6 +26,7 @@ services:
     volumes:
       - .:/app
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     environment:
       - TWITTER_ACCESS_TOKEN_SECRET
       - TWITTER_CONSUMER_KEY_SECRET
