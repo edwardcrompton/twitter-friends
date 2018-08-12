@@ -75,6 +75,14 @@ place of the xxx
 
 `TWITTER_ACCESS_TOKEN_SECRET=xxx`
 
+If you get permissions problems with running the application in the browser, I
+had to change the permissions on certain folders to user that runs php in the
+docker container. On the host machine:
+
+> sudo chown -R 33 boostrap/cache
+
+https://serversforhackers.com/c/dckr-file-permissions
+
 To do next
 ----------
 
