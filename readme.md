@@ -86,16 +86,10 @@ https://serversforhackers.com/c/dckr-file-permissions
 To do next
 ----------
 
-Having re-watched videos about the service container, it's clearer to me that
-the TwitterOAuth class is not being automatically instantiated properly.
+Write a test to check that each of the pages are working.
 
-https://laracasts.com/series/laravel-from-scratch-2017/episodes/25?autoplay=true
-
-Try watching an updated 5.6 video, which is what I'm running. Also inspect the
-installation to see if Laravel has been upgraded properly from 5.3 /5.4.
-
-In order to do composer update, it looks as though I need curl installed in my
-Docker configuration.
+It seems that the routes might be correct, it's just the the drop down menu is
+not pointing to them correctly.
 
 Examine the logs in the Travis build and try to work out why the test is failing
 when locally it's passing.
