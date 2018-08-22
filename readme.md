@@ -18,16 +18,32 @@ Installation
 
 ### Docker
 
-To build and run the application:
+## To build and run the application:
 
-`docker-compose up -d`
+1. Clone the repo:
+  `git clone git@github.com:edwardcrompton/twitter-friends.git`
 
-To run the tests:
+2. Start docker:
+  `cd twitter-friends`
+  `docker-compose up -d`
+
+3. Wait for composer to install all the dependencies the first time you start it. To monitor progress do:
+  `docker logs -f composer`
+
+4. Set the permissions on the storage folder:
+  
+  `sudo chmod -R 777 storage`
+
+  Note: This is wrong - we should change the owner to the nginx owner.
+
+5. Copy .env.travis to .env
+  Then add the secreat Twitter application keys as described in the Development set up below.
+
+## To run the tests:
 
 `./run-tests.sh`
 
-Travis CI
----------
+### Travis CI
 
 Environment variables that are set in the OS of where PHP is running get
 imported into the $_ENV array in PHP. Laravel uses these for its own
