@@ -16,9 +16,7 @@ consider unfollowing them.
 Installation
 ------------
 
-### Docker
-
-## To build and run the application:
+### To build and run the application:
 
 1. Clone the repo:
   `git clone git@github.com:edwardcrompton/twitter-friends.git`
@@ -36,10 +34,25 @@ Installation
 
   Note: This is wrong - we should change the owner to the nginx owner.
 
-5. Copy .env.travis to .env
-  Then add the secreat Twitter application keys as described in the Development set up below.
+5. The .env.travis file contains most of the configuration required for the docker set up. Copy this file to '.env'.
 
-## To run the tests:
+  You will then need to add some secret authentication keys for your Twitter app.
+
+  Create a Twitter app at https://apps.twitter.com
+
+  Add the following lines to .env, filling in the details of your Twitter app in place of the xxx
+
+  `# Twitter security credentials`
+
+  `TWITTER_CONSUMER_KEY=xxx`
+
+  `TWITTER_CONSUMER_KEY_SECRET=xxx`
+
+  `TWITTER_ACCESS_TOKEN=xxx`
+
+  `TWITTER_ACCESS_TOKEN_SECRET=xxx`
+
+### To run the tests:
 
 `./run-tests.sh`
 
@@ -69,27 +82,7 @@ that the variables can be encrypted and then committed to the repository.
 
 https://docs.travis-ci.com/user/environment-variables/#defining-encrypted-variables-in-travisyml
 
-### Development set up
-
-The .env.travis file contains most of the configuration required for the docker
-set up. Copy this file to '.env'.
-
-You will then need to add some secret authentication keys for your Twitter app.
-
-Create a Twitter app at https://apps.twitter.com
-
-Add the following lines to .env, filling in the details of your Twitter app in 
-place of the xxx
-
-`# Twitter security credentials`
-
-`TWITTER_CONSUMER_KEY=xxx`
-
-`TWITTER_CONSUMER_KEY_SECRET=xxx`
-
-`TWITTER_ACCESS_TOKEN=xxx`
-
-`TWITTER_ACCESS_TOKEN_SECRET=xxx`
+### Permissions
 
 If you get permissions problems with running the application in the browser, I
 had to change the permissions on certain folders to user that runs php in the
