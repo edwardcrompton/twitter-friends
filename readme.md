@@ -19,13 +19,16 @@ Installation
 ### To build and run the application:
 
 1. Clone the repo:
+  
   `git clone git@github.com:edwardcrompton/twitter-friends.git`
 
 2. Start docker:
+  
   `cd twitter-friends`
   `docker-compose up -d`
 
 3. Wait for composer to install all the dependencies the first time you start it. To monitor progress do:
+  
   `docker logs -f composer`
 
 4. Set the permissions on the storage folder:
