@@ -40,5 +40,6 @@ return [
         'key_secret' => env('TWITTER_CONSUMER_KEY_SECRET'),
         'token' => env('TWITTER_ACCESS_TOKEN'),
         'token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
+        'user' => env('TWITTER_USER'),
     ],
 ];
