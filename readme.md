@@ -25,6 +25,7 @@ Installation
 2. Start docker:
   
   `cd twitter-friends`
+  
   `docker-compose up -d`
 
 3. Wait for composer to install all the dependencies the first time you start it. To monitor progress do:
