@@ -25,11 +25,12 @@ Installation
 2. Start docker:
   
   `cd twitter-friends`
+  
   `docker-compose up -d`
 
 3. Wait for composer to install all the dependencies the first time you start it. To monitor progress do:
   
-  `docker logs -f composer`
+  `docker-compose logs -f composer`
 
 4. Set the permissions on the storage folder:
   
@@ -88,8 +89,8 @@ https://docs.travis-ci.com/user/environment-variables/#defining-encrypted-variab
 ### Permissions
 
 If you get permissions problems with running the application in the browser, I
-had to change the permissions on certain folders to user that runs php in the
-docker container. On the host machine:
+had to change the permissions on certain folders to the user that runs php in
+the docker container. On the host machine:
 
 > sudo chown -R 33 boostrap/cache
 
@@ -110,9 +111,6 @@ when locally it's passing.
 probably changed them at some point in the past for my development clone).
 - Moral: If travis fails, try cloning a brand new code base and run the tests
 there.
-
-The build it not marked as failed when the tests fail inside docker. Does this
-help? https://stackoverflow.com/questions/29568352/using-docker-compose-with-ci-how-to-deal-with-exit-codes-and-daemonized-linked
 
 Database storage and variable storage is all file based at the moment. Making it 
 db based would be better.
