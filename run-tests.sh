@@ -12,6 +12,6 @@ docker-compose exec php chmod -R 777 bootstrap/cache
 # Migrate the database.
 mkdir storage/databases
 touch storage/databases/twitter-friends.sqlite
-docker-compose run php php artisan migrate
+docker-compose exec php php artisan migrate
 
 docker-compose exec php php artisan dusk
