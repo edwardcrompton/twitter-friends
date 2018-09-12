@@ -27,6 +27,7 @@ services:
       - .:/app
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./storage/databases:/app/storage/databases/
     environment:
       - TWITTER_ACCESS_TOKEN_SECRET
       - TWITTER_CONSUMER_KEY_SECRET
@@ -42,6 +43,11 @@ services:
        CHROMEDRIVER_PORT: "9515"
     cap_add:
        - "SYS_ADMIN"
+
+  sqlite:
+    image: nouchka/sqlite3
+    volumes:
+      - ./storage/databases:/root/db/
 
 networks:
   app-network:
