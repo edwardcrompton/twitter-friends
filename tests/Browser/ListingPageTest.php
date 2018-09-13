@@ -20,4 +20,18 @@ class ListingPageTest extends DuskTestCase
                     ->assertSee('Followers of ed_crompton: Celebrity status');
         });
     }
+ 
+    /**
+     * Checks celebrity friends list loads.
+     *
+     * @return void
+     */
+    public function testCelebrityFriendsList()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/ed_crompton/friends/celebs')
+                    ->assertSee('Friends of ed_crompton: Celebrity status');
+        });
+    }
 }
+
