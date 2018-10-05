@@ -99,8 +99,6 @@ https://serversforhackers.com/c/dckr-file-permissions
 To do next
 ----------
 
-Write a test to check that each of the pages are working.
-
 It seems that the routes might be correct, it's just the the drop down menu is
 not pointing to them correctly.
 
@@ -118,11 +116,7 @@ db based would be better.
 Periodically check who is following you so we can tell who has unfollowed you.
 This should be done with a cron job that hits http://twitter-friends.app/[handle]/updatefollowers
 
-Make the code more unit testable and write some extra tests.
-
 Using the api or local storage, add stats showing who you've followed vs who has
 followed you back vs who is unlikely to ever follow you back.
-
-OR
 
 Create a React based front end that integrates with this as an API.
